@@ -156,3 +156,94 @@ After starting the development server, access the application at [http://localho
 ### 8. Modify Pages
 
 You can start editing pages by modifying files in the `src/app/` directory. Changes will be reflected automatically.
+
+### 9. Handle Husky Errors on a New Machine
+
+If you encounter the error `cannot spawn .husky/pre-commit: No such file or directory` when committing on a new machine, follow these steps:
+
+#### 1. Ensure the `.husky/pre-commit` File Exists
+
+- Check if the `.husky/pre-commit` file exists in your project.
+- If not, create the file with the following content:
+
+```bash
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Check for the forbidden folder
+if [ -d "./src/app/[locale]/(auth)/sample" ]; then
+  echo "❌ Commit blocked: Folder 'src/app/[locale]/(auth)/sample' should not exist. Please correct UI URL before committing"
+  exit 1
+fi
+
+echo '🏗️👷 Styling, testing and building your project before committing'
+
+echo "🔍 Running lint-staged..."
+npx lint-staged || exit 1
+
+# If everything passes... Now we can commit
+echo '✅✅✅✅ Committing this now....'
+```
+
+#### 2. Make the File Executable
+
+Run the following command to make the `.husky/pre-commit` file executable:
+
+```bash
+chmod +x .husky/pre-commit
+```
+
+#### 3. Check and Fix Line Endings
+
+If you are working on Windows, the file may use Windows-style line endings (`CRLF`) instead of Unix-style (`LF`). Convert the line endings to Unix using:
+
+```bash
+sed -i 's/\r$//' .husky/pre-commit
+```
+
+#### 4. Install Husky
+
+If Husky is not installed on the new machine, run the following command:
+
+```bash
+npm install husky --save-dev
+```
+
+Then, activate Husky hooks:
+
+```bash
+npx husky install
+```
+
+#### 5. Verify Git Configuration
+
+Ensure Git is using the correct hooks path. Run:
+
+```bash
+git config core.hooksPath
+```
+
+The result should be `.husky`. If not, set it manually:
+
+```bash
+git config core.hooksPath .husky
+```
+
+#### 6. Retry the Commit
+
+After completing the above steps, try committing again:
+
+```bash
+git add .
+git commit -m "Your commit message"
+```
+
+#### 7. Debug Further if Necessary
+
+If the error persists, run the `.husky/pre-commit` script directly to debug:
+
+```bash
+./.husky/pre-commit
+```
+
+This will help identify any issues with the script itself.
