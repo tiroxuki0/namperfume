@@ -1,0 +1,12 @@
+.frame {
+  padding: 64px 0px 4px;
+  overflow: initial;
+
+  .item {
+    text-align: center;
+  }
+}
+
+.layout {
+  margin-inline-start: 0;
+}

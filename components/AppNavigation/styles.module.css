@@ -1,0 +1,31 @@
+.frame {
+  overflow: auto;
+  height: 100vh;
+  position: fixed !important;
+  inset-inline-start: 0;
+  top: 60px;
+  bottom: 0;
+  scrollbar-width: thin;
+  scrollbar-color: unset;
+
+  .hide {
+    display: none;
+  }
+
+  .item {
+    height: 94px;
+    text-align: center;
+    padding: 12px;
+    width: 100%;
+
+    .label {
+      line-height: 8px;
+      font-size: 14px;
+      font-weight: 400;
+      text-align: center;
+    }
+    .icon {
+      font-size: 24px;
+    }
+  }
+}

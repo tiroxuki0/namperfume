@@ -1,0 +1,16 @@
+# #!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Check for the forbidden folder
+if [ -d "./src/app/[locale]/(auth)/sample" ]; then
+  echo "❌ Commit blocked: Folder 'src/app/[locale]/(auth)/sample' should not exist. Please correct UI URL before committing"
+  exit 1
+fi
+
+echo '🏗️👷 Styling, testing and building your project before committing'
+
+echo "🔍 Running lint-staged..."
+npx lint-staged || exit 1
+
+# If everything passes... Now we can commit
+echo '✅✅✅✅ Committing this now....'

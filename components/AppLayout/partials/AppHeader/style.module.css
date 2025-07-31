@@ -1,0 +1,28 @@
+.frame {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  width: 100vw;
+  max-height: 66px;
+  padding: 12px 24px;
+  .item {
+    line-height: 8px;
+  }
+}
+
+.avatar {
+  max-height: 48px;
+  aspect-ratio: 16 / 9; /* Replace with the appropriate ratio */
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.expandDivider {
+  width: 1px;
+  height: 4.8em;
+  top: -1px;
+}
