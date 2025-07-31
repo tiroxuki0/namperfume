@@ -1,7 +1,8 @@
-import { createInstance } from 'i18next'
-import { initReactI18next } from 'react-i18next/initReactI18next'
-import resourcesToBackend from 'i18next-resources-to-backend'
-import i18nConfig from '../../i18nConfig'
+import { createInstance } from "i18next"
+import { initReactI18next } from "react-i18next/initReactI18next"
+import resourcesToBackend from "i18next-resources-to-backend"
+
+import i18nConfig from "../../i18nConfig"
 
 export default async function initTranslations(locale, namespaces, i18nInstance, resources) {
   i18nInstance = i18nInstance || createInstance()
@@ -26,13 +27,13 @@ export default async function initTranslations(locale, namespaces, i18nInstance,
     ns: namespaces,
     preload: resources ? [] : i18nConfig.locales,
     interpolation: {
-      escapeValue: false, // Disables HTML escaping
-    },
+      escapeValue: false // Disables HTML escaping
+    }
   })
 
   return {
     i18n: i18nInstance,
     resources: i18nInstance.services.resourceStore.data,
-    t: i18nInstance.t,
+    t: i18nInstance.t
   }
 }

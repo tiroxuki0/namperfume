@@ -1,13 +1,16 @@
-'use client'
+"use client"
 
-import AppHeader from '@components/AppLayout/partials/AppHeader'
-import AppNavigation from '@components/AppNavigation'
-import { useInitBaseConfig } from '@root/hooks/useInitBaseConfig'
-import { useRecursiveMenuNavigation } from '@root/hooks/useRecursiveMenuNavigation'
-import { useStateMenu } from '@root/stores/menu/store'
-import { Layout, theme } from 'antd'
-import { ReactNode } from 'react'
-import styles from './styles.module.css'
+import { ReactNode } from "react"
+
+import { Layout, theme } from "antd"
+
+import AppHeader from "@components/AppLayout/partials/AppHeader"
+import AppNavigation from "@components/AppNavigation"
+import { useInitBaseConfig } from "@root/hooks/useInitBaseConfig"
+import { useRecursiveMenuNavigation } from "@root/hooks/useRecursiveMenuNavigation"
+import { useStateMenu } from "@root/stores/menu/store"
+
+import styles from "./styles.module.css"
 
 const { Content } = Layout
 
@@ -17,7 +20,7 @@ type Props = {
 
 const AppLayout = ({ children }: Props) => {
   const {
-    token: { colorBgLayout, colorBgBase },
+    token: { colorBgLayout, colorBgBase }
   } = theme.useToken()
 
   const { collapsed, setCollapsed } = useStateMenu()
@@ -38,22 +41,22 @@ const AppLayout = ({ children }: Props) => {
   return (
     <Layout
       style={{
-        background: colorBgLayout,
+        background: colorBgLayout
       }}
     >
-      <Layout id="service-portal-layout" style={{ height: '100vh', background: colorBgBase }}>
-        <AppHeader menu={menuItem} collapsed={collapsed} onChange={onChange} />
+      <Layout id="service-portal-layout" style={{ height: "100vh", background: colorBgBase }}>
+        <AppHeader collapsed={collapsed} menu={menuItem} onChange={onChange} />
         <AppNavigation
-          pathname={pathname}
+          collapsed={collapsed}
           defaultOpenKeys={defaultOpenKeys}
           menuItems={flattenedChildren}
-          collapsed={collapsed}
+          pathname={pathname}
         />
         <Content
           className={styles.frame}
           style={{
-            height: '100vh',
-            overflow: 'auto',
+            height: "100vh",
+            overflow: "auto"
           }}
         >
           {children}

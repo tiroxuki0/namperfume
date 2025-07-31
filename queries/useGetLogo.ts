@@ -1,5 +1,6 @@
-import { getRequest } from '@utils/request'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query"
+
+import { getRequest } from "@utils/request"
 
 interface Logo {
   name: string
@@ -9,21 +10,21 @@ interface Logo {
 const getLogo = async () => {
   return (await getRequest({
     apiPath: `/logos/latest`,
-    params: {},
+    params: {}
   })) as Logo
 }
 
 export const useGetLogo = () => {
   const query = useQuery({
-    queryKey: ['get-logo'],
+    queryKey: ["get-logo"],
     queryFn: () => getLogo(),
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   return {
     ...query,
-    logo: query?.data,
+    logo: query?.data
   }
 }

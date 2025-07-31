@@ -1,4 +1,4 @@
-import { Divider as AntdDivider, DividerProps } from 'antd'
+import { Divider as AntdDivider, DividerProps } from "antd"
 
 const Divider = (props: DividerProps) => {
   const { children, ...rest } = props

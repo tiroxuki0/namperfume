@@ -1,8 +1,9 @@
 "use client"
 
 import React from "react"
-import { Layout, Menu, theme } from "antd"
+
 import { useRouter } from "next/navigation"
+import { Layout, Menu, theme } from "antd"
 import { ItemType } from "antd/es/menu/interface"
 
 const { Sider } = Layout
@@ -25,9 +26,9 @@ const AppNavigation = ({ pathname, defaultOpenKeys, collapsed, menuItems }: Prop
 
   return (
     <Sider
-      trigger={null}
       collapsible
       collapsed={collapsed}
+      trigger={null}
       width={256}
       style={{
         ...(collapsed && {
@@ -41,16 +42,16 @@ const AppNavigation = ({ pathname, defaultOpenKeys, collapsed, menuItems }: Prop
       <Menu
         defaultOpenKeys={defaultOpenKeys}
         defaultSelectedKeys={[pathname]}
-        key={pathname}
         items={menuItems!}
+        key={pathname}
         mode="inline"
         theme="dark"
-        onClick={(menu) => {
-          push(menu?.key || "")
-        }}
         style={{
           top: 68,
           position: "absolute"
+        }}
+        onClick={menu => {
+          push(menu?.key || "")
         }}
       />
     </Sider>

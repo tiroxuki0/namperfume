@@ -1,4 +1,4 @@
-import { ConfigProvider as AntdConfigProvider, ConfigProviderProps } from 'antd'
+import { ConfigProvider as AntdConfigProvider, ConfigProviderProps } from "antd"
 
 const ConfigProvider = (props: ConfigProviderProps) => {
   const { children, ...rest } = props

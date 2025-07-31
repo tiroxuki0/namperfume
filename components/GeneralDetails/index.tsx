@@ -1,24 +1,26 @@
-import { LoadingOutlined } from '@ant-design/icons'
-import { AccessDeniedView } from '@components/AccessDeniedView'
-import CardRadius from '@components/Card'
-import Flex from '@components/Flex'
-import { Typography } from '@components/Typography'
-import { usePermissions } from '@root/hooks/usePermissions'
-import { Col, Row, Space, Spin, theme } from 'antd'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from "react"
+
+import { LoadingOutlined } from "@ant-design/icons"
+import { Col, Row, Space, Spin, theme } from "antd"
+
+import { AccessDeniedView } from "@components/AccessDeniedView"
+import CardRadius from "@components/Card"
+import Flex from "@components/Flex"
+import { Typography } from "@components/Typography"
+import { usePermissions } from "@root/hooks/usePermissions"
 
 const GeneralDetails = ({
   items,
   columns = 2,
-  title = 'General information',
+  title = "General information",
   loading,
   action = null,
   emptyView = null,
   showEmptyView = false,
   styles,
-  titleInBoard = '',
+  titleInBoard = "",
   permission,
-  style,
+  style
 }: {
   items: { label: ReactNode; value: ReactNode; icon?: ReactNode; defaultLabel?: string }[]
   columns: number
@@ -45,20 +47,20 @@ const GeneralDetails = ({
     setSpan(24 / columns)
   }, [columns])
 
-  const { checkPermission, isLoading: isPermissionLoading, status } = usePermissions('')
+  const { checkPermission, isLoading: isPermissionLoading, status } = usePermissions("")
 
-  const isAllowed = checkPermission(permission || '')
+  const isAllowed = checkPermission(permission || "")
 
   //--------------------------------------------------------------------------> Render
 
-  if (!isAllowed && status === 'success') {
+  if (!isAllowed && status === "success") {
     return <AccessDeniedView />
   }
 
   return (
     <Flex vertical gap={8}>
       {title && (
-        <Flex justify="space-between" align="center">
+        <Flex align="center" justify="space-between">
           <Typography.Title level={5} style={{ margin: 0, fontWeight: 500 }}>
             {title}
           </Typography.Title>
@@ -69,9 +71,9 @@ const GeneralDetails = ({
         style={style}
         styles={{
           body: {
-            padding: '16px 0',
-            ...styles?.body,
-          },
+            padding: "16px 0",
+            ...styles?.body
+          }
         }}
       >
         {titleInBoard && (
@@ -97,14 +99,14 @@ const GeneralDetails = ({
                 const border = (index + 1) % columns !== 0
                 return (
                   <Attribute
-                    defaultLabel={item?.defaultLabel ?? ''}
-                    label={item?.label}
-                    key={index}
-                    value={item?.value}
                     borderRight={border}
-                    span={span}
+                    defaultLabel={item?.defaultLabel ?? ""}
                     icon={item?.icon}
+                    key={index}
+                    label={item?.label}
                     loading={loading || isPermissionLoading}
+                    span={span}
+                    value={item?.value}
                   />
                 )
               }
@@ -123,7 +125,7 @@ export const Attribute = ({
   span,
   loading,
   styles = {},
-  defaultLabel,
+  defaultLabel
 }: {
   label: ReactNode
   value: ReactNode
@@ -135,7 +137,7 @@ export const Attribute = ({
   defaultLabel?: string
 }) => {
   const {
-    token: { colorBorderSecondary, lineType },
+    token: { colorBorderSecondary, lineType }
   } = theme.useToken()
 
   //--------------------------------------------------------------------------> Render
@@ -147,22 +149,22 @@ export const Attribute = ({
       span={span}
       style={{
         ...(borderRight && {
-          borderRight: `1px ${lineType} ${colorBorderSecondary}`,
+          borderRight: `1px ${lineType} ${colorBorderSecondary}`
         }),
         padding: 16,
         paddingTop: 0,
-        ...styles,
+        ...styles
       }}
     >
       <Row>
         <Col span={24}>
           <Space>
             <Typography.Text
+              type="secondary"
               style={{
                 fontSize: 12,
-                textTransform: 'uppercase',
+                textTransform: "uppercase"
               }}
-              type="secondary"
             >
               {renderLabel}
             </Typography.Text>

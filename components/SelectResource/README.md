@@ -25,7 +25,7 @@
 ### 1. Import component
 
 ```tsx
-import SelectResource from '@/components/SelectResource'
+import SelectResource from "@/components/SelectResource"
 ```
 
 ### 2. Ví dụ cơ bản
@@ -48,10 +48,10 @@ import SelectResource from '@/components/SelectResource'
   labelField="full_name"
   valueField="id"
   shouldFetch={true}
-  optionRender={(record) => (
+  optionRender={record => (
     <div>
       <strong>{record.full_name}</strong>
-      <div style={{ fontSize: 12, color: '#999' }}>{record.email}</div>
+      <div style={{ fontSize: 12, color: "#999" }}>{record.email}</div>
     </div>
   )}
 />

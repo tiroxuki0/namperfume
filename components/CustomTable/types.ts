@@ -1,6 +1,6 @@
-import { ButtonProps } from 'antd'
+import { ButtonProps } from "antd"
 
-export type BulkActionType = Omit<ButtonProps, 'children' | 'onClick'> & {
+export type BulkActionType = Omit<ButtonProps, "children" | "onClick"> & {
   text: string
   id: string
   permission?: string

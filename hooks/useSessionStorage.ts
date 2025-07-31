@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from "react"
 
-import type { Dispatch, SetStateAction } from 'react'
-import { useEventCallback } from '@root/hooks/useEventCallback'
-import { useEventListener } from '@root/hooks/useEventListener'
+import type { Dispatch, SetStateAction } from "react"
+
+import { useEventCallback } from "@root/hooks/useEventCallback"
+import { useEventListener } from "@root/hooks/useEventListener"
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface WindowEventMap {
-    'session-storage': CustomEvent
+    "session-storage": CustomEvent
   }
 }
 
@@ -17,7 +18,7 @@ type UseSessionStorageOptions<T> = {
   initializeWithValue?: boolean
 }
 
-const IS_SERVER = typeof window === 'undefined'
+const IS_SERVER = typeof window === "undefined"
 
 export function useSessionStorage<T>(
   key: string,
@@ -27,7 +28,7 @@ export function useSessionStorage<T>(
   const { initializeWithValue = true } = options
 
   const serializer = useCallback<(value: T) => string>(
-    (value) => {
+    value => {
       if (options.serializer) {
         return options.serializer(value)
       }
@@ -38,12 +39,12 @@ export function useSessionStorage<T>(
   )
 
   const deserializer = useCallback<(value: string) => T>(
-    (value) => {
+    value => {
       if (options.deserializer) {
         return options.deserializer(value)
       }
       // Support 'undefined' as a value
-      if (value === 'undefined') {
+      if (value === "undefined") {
         return undefined as unknown as T
       }
 
@@ -53,7 +54,7 @@ export function useSessionStorage<T>(
       try {
         parsed = JSON.parse(value)
       } catch (error) {
-        console.error('Error parsing JSON:', error)
+        console.error("Error parsing JSON:", error)
         return defaultValue // Return initialValue if parsing fails
       }
 
@@ -91,7 +92,7 @@ export function useSessionStorage<T>(
 
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to sessionStorage.
-  const setValue: Dispatch<SetStateAction<T>> = useEventCallback((value) => {
+  const setValue: Dispatch<SetStateAction<T>> = useEventCallback(value => {
     // Prevent build error "window is undefined" but keeps working
     if (IS_SERVER) {
       console.warn(
@@ -110,7 +111,7 @@ export function useSessionStorage<T>(
       setStoredValue(newValue)
 
       // We dispatch a custom event so every similar useSessionStorage hook is notified
-      window.dispatchEvent(new StorageEvent('session-storage', { key }))
+      window.dispatchEvent(new StorageEvent("session-storage", { key }))
     } catch (error) {
       console.warn(`Error setting sessionStorage key “${key}”:`, error)
     }
@@ -133,7 +134,7 @@ export function useSessionStorage<T>(
     setStoredValue(defaultValue)
 
     // We dispatch a custom event so every similar useSessionStorage hook is notified
-    window.dispatchEvent(new StorageEvent('session-storage', { key }))
+    window.dispatchEvent(new StorageEvent("session-storage", { key }))
   })
 
   useEffect(() => {
@@ -152,11 +153,11 @@ export function useSessionStorage<T>(
   )
 
   // this only works for other documents, not the current one
-  useEventListener('storage', handleStorageChange)
+  useEventListener("storage", handleStorageChange)
 
   // this is a custom event, triggered in writeValueToSessionStorage
   // See: useSessionStorage()
-  useEventListener('session-storage', handleStorageChange)
+  useEventListener("session-storage", handleStorageChange)
 
   return [storedValue, setValue, removeValue]
 }

@@ -1,14 +1,16 @@
-import React, { ReactNode } from 'react'
-import { DropdownButtonProps } from 'antd/es/dropdown'
-import { MenuItemType } from 'antd/es/menu/interface'
-import Dropdown from '@components/Dropdown'
-import { Space } from 'antd'
-import Button from '@components/Button'
-import { usePermissions } from '@root/hooks/usePermissions'
+import React, { ReactNode } from "react"
 
-type ButtonDropdownProps = Omit<DropdownButtonProps, 'children' | 'trigger' | 'items'> & {
+import { DropdownButtonProps } from "antd/es/dropdown"
+import { MenuItemType } from "antd/es/menu/interface"
+import { Space } from "antd"
+
+import Dropdown from "@components/Dropdown"
+import Button from "@components/Button"
+import { usePermissions } from "@root/hooks/usePermissions"
+
+type ButtonDropdownProps = Omit<DropdownButtonProps, "children" | "trigger" | "items"> & {
   children?: ReactNode
-  items: (Omit<MenuItemType, 'label' | 'key'> & {
+  items: (Omit<MenuItemType, "label" | "key"> & {
     text: string
     id: string
     permission?: string
@@ -20,29 +22,29 @@ type ButtonDropdownProps = Omit<DropdownButtonProps, 'children' | 'trigger' | 'i
 const ButtonDropdown = (props: ButtonDropdownProps) => {
   const { children, items, onItemClick, ...rest } = props
 
-  const { checkPermission } = usePermissions('')
+  const { checkPermission } = usePermissions("")
 
   const itemsWithPermission = (items || []).filter(({ permission, hide }) => {
-    return !hide && checkPermission?.(permission || '')
+    return !hide && checkPermission?.(permission || "")
   })
 
   if (itemsWithPermission?.length === 0) return null
 
   return (
     <Dropdown
-      trigger={['click']}
+      trigger={["click"]}
       menu={{
-        onClick: (d) => {
+        onClick: d => {
           onItemClick?.(d.key)
         },
-        items: (itemsWithPermission || []).map((item) => {
+        items: (itemsWithPermission || []).map(item => {
           const { id, text, ...rest } = item
           return {
             ...rest,
             label: text,
-            key: id,
+            key: id
           }
-        }),
+        })
       }}
       {...rest}
     >

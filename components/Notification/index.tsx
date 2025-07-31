@@ -1,13 +1,13 @@
-import { notification } from 'antd/lib'
+import { notification } from "antd/lib"
 
-type NotificationType = 'success' | 'info' | 'warning' | 'error'
+type NotificationType = "success" | "info" | "warning" | "error"
 
 interface NotifyOptions {
   type?: NotificationType
   message: string
   description?: string
   duration?: number
-  placement?: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight'
+  placement?: "topLeft" | "topRight" | "bottomLeft" | "bottomRight"
   onClose?: () => void
   key?: string // optional key for closing manually
 }
@@ -16,13 +16,13 @@ interface NotifyOptions {
  * Global Notification Utility
  */
 export const notify = ({
-  type = 'info',
+  type = "info",
   message,
   description,
   duration = 3,
-  placement = 'bottomLeft',
+  placement = "bottomLeft",
   onClose,
-  key,
+  key
 }: NotifyOptions) => {
   notification[type]({
     message,
@@ -30,6 +30,6 @@ export const notify = ({
     duration,
     placement,
     onClose,
-    key,
+    key
   })
 }

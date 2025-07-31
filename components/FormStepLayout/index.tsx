@@ -1,15 +1,17 @@
-'use client'
+"use client"
 
-import FlexCustom from '@components/FlexCustom'
-import Steps from '@components/Steps'
-import { Col, Row } from 'antd'
-import { StepProps } from 'antd/lib'
-import { ReactNode } from 'react'
+import { ReactNode } from "react"
+
+import { Col, Row } from "antd"
+import { StepProps } from "antd/lib"
+
+import FlexCustom from "@components/FlexCustom"
+import Steps from "@components/Steps"
 
 const FormStepLayout = ({
   step,
   stepList,
-  stepForm,
+  stepForm
 }: {
   step: number
   stepList: StepProps[]
@@ -18,14 +20,14 @@ const FormStepLayout = ({
   return (
     <>
       <FlexCustom.FlexStep style={{ marginBottom: 0 }}>
-        <Steps current={step} type="navigation" items={stepList} size="small" />
+        <Steps current={step} items={stepList} size="small" type="navigation" />
       </FlexCustom.FlexStep>
       <Row
         gutter={[12, 12]}
         style={{
           marginLeft: 0,
           marginRight: 0,
-          position: 'relative',
+          position: "relative"
         }}
       >
         <Col span={24} style={{ padding: 24, marginBottom: 60 }}>

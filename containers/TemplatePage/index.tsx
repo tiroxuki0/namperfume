@@ -1,31 +1,35 @@
 "use client"
 
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons"
-import Button from "@components/Button"
-import CustomTable from "@components/CustomTable"
-import Link from "@components/Link"
-import PageLayout from "@components/PageLayout"
-import ProtectedRoute from "@components/ProtectedShield"
-import { Typography } from "@components/Typography"
-import { ObjectLiteral } from "@models/entities/ObjectLiteral"
+import { useState } from "react"
+
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
+// Third-party libraries
+
+import { TableColumnsType } from "antd"
+import { useTranslation } from "react-i18next"
+
 import { ACTION } from "@root/constant"
 import useChangeTable from "@root/hooks/useChangeTable"
 import { useDebounceCallback } from "@root/hooks/useDebounce"
 import { useRowSelection } from "@root/hooks/useRowSelection"
 import ROUTE from "@utils/pageRoutes"
-import { TableColumnsType } from "antd"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { useTranslation } from "react-i18next"
-import DeleteSamples from "./components/modals/DeleteSamples"
-import { filterProperties } from "./constants"
-import { useGetSamples } from "./query/useGetSamples"
+
 import { SimpleItem } from "@models/entities/Base"
+import { ObjectLiteral } from "@models/entities/ObjectLiteral"
+
+import CustomTable from "@components/CustomTable"
+import Link from "@components/Link"
+import PageLayout from "@components/PageLayout"
+import ProtectedRoute from "@components/ProtectedShield"
+import { Typography } from "@components/Typography"
+
+import { filterProperties } from "./constants"
+
+import DeleteSamples from "./components/modals/DeleteSamples"
+import { useGetSamples } from "./query/useGetSamples"
 
 const Page = () => {
   const { t } = useTranslation()
-
-  const router = useRouter()
 
   const { page, perPage, onChangeTable, resetPagination } = useChangeTable<SimpleItem>()
 
@@ -78,10 +82,6 @@ const Page = () => {
     }
   ]
 
-  const handleOnClickCreate = () => {
-    router.push(ROUTE.TEMPLATE.CREATE)
-  }
-
   const handleShowModalDelete = () => {
     setModalId(ACTION.DELETE)
   }
@@ -115,10 +115,10 @@ const Page = () => {
   return (
     <ProtectedRoute>
       <PageLayout
-        title={t("examplePage.title")}
         backIcon={false}
-        type="banner"
         breadcrumb={formatBreadcrumb()}
+        title={t("examplePage.title")}
+        type="banner"
         styles={{
           body: {
             padding: 24
@@ -126,40 +126,14 @@ const Page = () => {
         }}
       >
         <CustomTable<SimpleItem>
-          action={
-            <Button
-              icon={<PlusOutlined />}
-              type="primary"
-              iconPosition="start"
-              onClick={handleOnClickCreate}
-              //TODO: remove or correct permission to display button
-              permission={"hidden"}
-            >
-              {t("button.create")}
-            </Button>
-          }
-          rowKey="uuid"
-          rowSelection={rowSelection}
-          selectedItems={selectedRows}
-          scroll={{ x: "max-content" }}
           columns={columns}
           dataSource={samples || []}
-          loading={isFetching}
-          onSearch={(value: string) => {
-            debounced(value)
-            resetPagination()
-          }}
-          onChange={onChangeTable}
           filterProperties={filterProperties(t)}
-          setFilteringQuery={(payload: ObjectLiteral) => {
-            setFilteringQuery(payload)
-            resetPagination()
-          }}
-          pagination={{
-            current: page,
-            pageSize: perPage,
-            total: meta?.total
-          }}
+          loading={isFetching}
+          rowKey="uuid"
+          rowSelection={rowSelection}
+          scroll={{ x: "max-content" }}
+          selectedItems={selectedRows}
           bulkAction={{
             options: optionsBulkAction(),
             total: selectedRows?.length,
@@ -171,9 +145,30 @@ const Page = () => {
               }
             }
           }}
+          pagination={{
+            current: page,
+            pageSize: perPage,
+            total: meta?.total
+          }}
+          setFilteringQuery={(payload: ObjectLiteral) => {
+            setFilteringQuery(payload)
+            resetPagination()
+          }}
+          onChange={onChangeTable}
+          onSearch={(value: string) => {
+            debounced(value)
+            resetPagination()
+          }}
         />
       </PageLayout>
-      {modalId === ACTION.DELETE && <DeleteSamples onSuccess={onSuccess} onCancel={onCancel} selectedItems={selectedRows || []} open />}
+      {modalId === ACTION.DELETE && (
+        <DeleteSamples
+          open
+          selectedItems={selectedRows || []}
+          onCancel={onCancel}
+          onSuccess={onSuccess}
+        />
+      )}
     </ProtectedRoute>
   )
 }

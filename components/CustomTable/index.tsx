@@ -1,19 +1,8 @@
-'use client'
+"use client"
 
-import { CloseOutlined, FilterOutlined, RetweetOutlined, SearchOutlined } from '@ant-design/icons'
-import Button from '@components/Button'
-import Flex from '@components/Flex'
-import Input from '@components/Input'
-import SelectResource from '@components/SelectResource'
-import {
-  CustomElementPropertyWithOutServer,
-  FilteringProperty,
-  SearchFilterPropertyWithOutServer,
-  SelectFilterPropertyWithOutServer,
-  SelectFilterPropertyWithServer,
-  SwitchFilterProperty,
-} from '@models/entities/FilterProperty'
-import { ObjectLiteral } from '@models/entities/ObjectLiteral'
+import React, { isValidElement, ReactNode, useState } from "react"
+
+import { CloseOutlined, FilterOutlined, RetweetOutlined, SearchOutlined } from "@ant-design/icons"
 import {
   Table as AntdTable,
   Badge,
@@ -25,14 +14,28 @@ import {
   Switch,
   TableProps,
   theme,
-  Typography,
-} from 'antd'
-import React, { isValidElement, ReactNode, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import BulkActions from './partials/BulkActions'
-import { BulkActionType, paginationOptions } from './types'
-import { usePermissions } from '@root/hooks/usePermissions'
-import { AccessDeniedView } from '@components/AccessDeniedView'
+  Typography
+} from "antd"
+import { useTranslation } from "react-i18next"
+
+import Button from "@components/Button"
+import Flex from "@components/Flex"
+import Input from "@components/Input"
+import SelectResource from "@components/SelectResource"
+import {
+  CustomElementPropertyWithOutServer,
+  FilteringProperty,
+  SearchFilterPropertyWithOutServer,
+  SelectFilterPropertyWithOutServer,
+  SelectFilterPropertyWithServer,
+  SwitchFilterProperty
+} from "@models/entities/FilterProperty"
+import { ObjectLiteral } from "@models/entities/ObjectLiteral"
+import { usePermissions } from "@root/hooks/usePermissions"
+import { AccessDeniedView } from "@components/AccessDeniedView"
+
+import BulkActions from "./partials/BulkActions"
+import { BulkActionType, paginationOptions } from "./types"
 
 type ScrollConfig = {
   index?: number
@@ -67,7 +70,7 @@ type Props<T> = {
 }
 
 export type CustomTableType<T> = Props<T> &
-  React.PropsWithChildren<Omit<TableProps<T>, 'title'>> &
+  React.PropsWithChildren<Omit<TableProps<T>, "title">> &
   React.RefAttributes<Reference>
 
 const CustomTable = <T,>(props: CustomTableType<T>) => {
@@ -91,11 +94,11 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
 
   const { token } = theme.useToken()
 
-  const { checkPermission, status } = usePermissions('')
+  const { checkPermission, status } = usePermissions("")
 
-  const isAllowed = checkPermission(permission || '')
+  const isAllowed = checkPermission(permission || "")
 
-  const { t } = useTranslation('common')
+  const { t } = useTranslation("common")
 
   const { borderRadiusLG, colorBorderSecondary } = token
 
@@ -117,8 +120,8 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
   ): filterProperty is SearchFilterPropertyWithOutServer => {
     return (
       !filterProperty.shouldFetchFromServer &&
-      !('options' in filterProperty) &&
-      !('component' in filterProperty)
+      !("options" in filterProperty) &&
+      !("component" in filterProperty)
     )
   }
 
@@ -127,8 +130,8 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
   ): filterProperty is SelectFilterPropertyWithOutServer => {
     return (
       !filterProperty.shouldFetchFromServer &&
-      'options' in filterProperty &&
-      typeof filterProperty?.options === 'object' &&
+      "options" in filterProperty &&
+      typeof filterProperty?.options === "object" &&
       Array.isArray(filterProperty?.options)
     )
   }
@@ -142,37 +145,37 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
   const isCustomComponentProperty = (
     filterProperty: FilteringProperty
   ): filterProperty is CustomElementPropertyWithOutServer => {
-    return !filterProperty.shouldFetchFromServer && 'component' in filterProperty
+    return !filterProperty.shouldFetchFromServer && "component" in filterProperty
   }
 
   const isSwitchProperty = (
     filterProperty: FilteringProperty
   ): filterProperty is SwitchFilterProperty => {
-    return filterProperty.type === 'switch'
+    return filterProperty.type === "switch"
   }
 
   const { options, onClearSelection, total, onItemClick, customTitle } = bulkAction || {}
 
   const onCountFilteredFormSelected = () => {
     const values = form.getFieldsValue(true)
-    const filteredCount = Object.values(values || {}).filter((value) => value != null).length
+    const filteredCount = Object.values(values || {}).filter(value => value != null).length
     setFilteredCount(filteredCount)
   }
 
   //--------------------------------------------------------------------------> Render
 
-  if (!isAllowed && status === 'success') {
+  if (!isAllowed && status === "success") {
     return <AccessDeniedView />
   }
 
   return (
-    <Flex gap={showSearch || showFilter || action || title ? 24 : 4} vertical>
+    <Flex vertical gap={showSearch || showFilter || action || title ? 24 : 4}>
       <Flex gap={4} justify="space-between">
         <Space>
           {title && (
             <Typography.Text
               style={{
-                fontWeight: 500,
+                fontWeight: 500
               }}
             >
               {title}
@@ -180,41 +183,41 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
           )}
           {showSearch && (
             <Input
-              onChange={(ev) => {
+              addonAfter={<SearchOutlined />}
+              data-testid={`${name ? `${name}-` : ""}search-input`}
+              placeholder="Search"
+              onChange={ev => {
                 onSearch?.(ev.target?.value)
               }}
-              addonAfter={<SearchOutlined />}
-              placeholder="Search"
-              data-testid={`${name ? `${name}-` : ''}search-input`}
             />
           )}
           {filterComponent}
           {showFilter && (
             <Button
+              data-testid={`${name ? `${name}-` : ""}filter-button`}
+              iconPosition="start"
               icon={
                 <Badge count={filteredCount} offset={[0, -8]}>
                   <FilterOutlined />
                 </Badge>
               }
-              iconPosition="start"
               onClick={showDrawer}
-              data-testid={`${name ? `${name}-` : ''}filter-button`}
             >
-              {t('button.filter')}
+              {t("button.filter")}
             </Button>
           )}
           {filteredCount > 0 && (
             <Button
+              data-testid={`${name ? `${name}-` : ""}clear-filter-button`}
+              icon={<CloseOutlined />}
+              iconPosition="start"
               type="link"
               onClick={() => {
                 form.resetFields()
                 form.submit()
               }}
-              icon={<CloseOutlined />}
-              iconPosition="start"
-              data-testid={`${name ? `${name}-` : ''}clear-filter-button`}
             >
-              {t('button.clearAllFilters')}
+              {t("button.clearAllFilters")}
             </Button>
           )}
         </Space>
@@ -224,123 +227,123 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
 
       {!!selectedItems?.length && !!options?.length && (
         <BulkActions
-          name={name}
-          onClearSelection={() => onClearSelection?.()}
-          totalItems={total}
           bulkActions={options || []}
+          customTitle={customTitle}
+          name={name}
+          totalItems={total}
+          onClearSelection={() => onClearSelection?.()}
           onItemClick={(id: string) => {
             onItemClick?.(id)
           }}
-          customTitle={customTitle}
         />
       )}
 
       <div
         style={{
           border: `1px solid ${colorBorderSecondary}`,
-          borderRadius: borderRadiusLG,
+          borderRadius: borderRadiusLG
         }}
       >
         <AntdTable
           {...rest}
-          {...(typeof pagination === 'boolean' && !pagination
+          {...(typeof pagination === "boolean" && !pagination
             ? {
-                pagination: pagination,
+                pagination: pagination
               }
             : {
                 pagination: {
                   style: {
-                    padding: '0 20px',
+                    padding: "0 20px"
                   },
                   pageSizeOptions: [...paginationOptions],
 
-                  showTotal: (total) => t('select.total', { total }),
-                  position: ['bottomLeft'],
+                  showTotal: total => t("select.total", { total }),
+                  position: ["bottomLeft"],
                   showSizeChanger: true,
-                  ...pagination,
-                },
+                  ...pagination
+                }
               })}
           dataSource={dataSource}
         />
       </div>
 
       <Drawer
-        title="Filter"
-        onClose={onClose}
         open={open}
+        title="Filter"
         footer={
           <Flex justify="space-between">
             <Button
-              type="link"
-              onClick={() => form.resetFields()}
+              data-testid={`${name ? `${name}-` : ""}reset-filter-button`}
               icon={<RetweetOutlined />}
               iconPosition="start"
-              data-testid={`${name ? `${name}-` : ''}reset-filter-button`}
+              type="link"
+              onClick={() => form.resetFields()}
             >
-              {t('button.reset')}
+              {t("button.reset")}
             </Button>
             <Space>
               <Button
+                data-testid={`${name ? `${name}-` : ""}cancel-filter-button`}
                 onClick={onClose}
-                data-testid={`${name ? `${name}-` : ''}cancel-filter-button`}
               >
-                {t('button.cancel')}
+                {t("button.cancel")}
               </Button>
               <Button
-                type="primary"
+                data-testid={`${name ? `${name}-` : ""}submit-filter-button`}
                 form="advanced-filter-form"
-                key="submit"
                 htmlType="submit"
-                data-testid={`${name ? `${name}-` : ''}submit-filter-button`}
+                key="submit"
+                type="primary"
               >
-                {t('button.apply')}
+                {t("button.apply")}
               </Button>
             </Space>
           </Flex>
         }
+        onClose={onClose}
       >
         <Form
           layout="vertical"
+          onValuesChange={(changed, all) => console.log("Changed:", changed, "All:", all)}
+          onFinish={values => {
+            setFilteringQuery?.(values)
+            onClose()
+            onCountFilteredFormSelected()
+          }}
           form={form}
           /* 
            Please do not remove id attribute - research antd-form-remote-submit to know why
           */
           id="advanced-filter-form"
-          onValuesChange={(changed, all) => console.log('Changed:', changed, 'All:', all)}
-          onFinish={(values) => {
-            setFilteringQuery?.(values)
-            onClose()
-            onCountFilteredFormSelected()
-          }}
         >
           {(filterProperties || []).map((filterProperty, index) => {
             if (isSwitchProperty(filterProperty)) {
               return (
                 <Form.Item
+                  key={filterProperty?.key}
                   label={filterProperty?.propertyLabel}
                   name={filterProperty?.key}
-                  key={filterProperty?.key}
                   valuePropName={filterProperty?.valuePropName}
                 >
                   <Flex>
                     {filterProperty.labelFalsy && filterProperty.labelTruthy ? (
-                      <Typography.Text style={{ marginRight: '8px' }}>
+                      <Typography.Text style={{ marginRight: "8px" }}>
                         {filterProperty.labelFalsy}
                       </Typography.Text>
                     ) : (
-                      ''
+                      ""
                     )}
                     <Switch
+                      data-testid={filterProperty["data-testid"]}
                       defaultChecked={filterProperty.defaultChecked}
-                      data-testid={filterProperty['data-testid']}
-                      onChange={(value) => form.setFieldValue(filterProperty?.key, value)}
+                      onChange={value => form.setFieldValue(filterProperty?.key, value)}
                     />
                     {filterProperty.labelFalsy && filterProperty.labelTruthy ? (
-                      <Typography.Text style={{ marginLeft: '8px' }}>
+                      <Typography.Text style={{ marginLeft: "8px" }}>
                         {filterProperty.labelTruthy}
                       </Typography.Text>
                     ) : (
-                      ''
+                      ""
                     )}
                   </Flex>
                 </Form.Item>
@@ -350,33 +353,33 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
             if (isSearchProperty(filterProperty)) {
               return (
                 <Form.Item
+                  key={filterProperty?.key}
                   label={filterProperty?.propertyLabel}
                   name={filterProperty?.key}
-                  key={filterProperty?.key}
                 >
-                  <Input placeholder="Enter" data-testid={filterProperty['data-testid']} />
+                  <Input data-testid={filterProperty["data-testid"]} placeholder="Enter" />
                 </Form.Item>
               )
             }
 
             if (isServerlessSelectProperty(filterProperty)) {
               return (
-                <SelectWithoutServer key={`serverless-${index}`} filterProperty={filterProperty} />
+                <SelectWithoutServer filterProperty={filterProperty} key={`serverless-${index}`} />
               )
             }
 
             if (isCustomComponentProperty(filterProperty)) {
               return (
                 <CustomComponentProperty
-                  key={`custom-${index}`}
-                  form={form}
                   filterProperty={filterProperty}
+                  form={form}
+                  key={`custom-${index}`}
                 />
               )
             }
 
             if (isServerProperty(filterProperty)) {
-              return <ServerProperty key={`server-${index}`} filterProperty={filterProperty} />
+              return <ServerProperty filterProperty={filterProperty} key={`server-${index}`} />
             }
 
             return null
@@ -390,59 +393,59 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
 export default CustomTable
 
 export const SelectWithoutServer = ({
-  filterProperty,
+  filterProperty
 }: {
   filterProperty: SelectFilterPropertyWithOutServer
 }) => {
   return (
     <Form.Item label={filterProperty?.propertyLabel} name={filterProperty?.key}>
       <Select
-        showSearch
         allowClear
+        showSearch
+        data-testid={filterProperty["data-testid"]}
         mode={filterProperty?.mode}
-        placeholder="Select"
         optionFilterProp="label"
-        options={'options' in filterProperty ? filterProperty?.options : []}
-        data-testid={filterProperty['data-testid']}
+        options={"options" in filterProperty ? filterProperty?.options : []}
+        placeholder="Select"
       />
     </Form.Item>
   )
 }
 
 export const ServerProperty = ({
-  filterProperty,
+  filterProperty
 }: {
   filterProperty: SelectFilterPropertyWithServer
 }) => {
   return (
     <Form.Item
+      extra={filterProperty?.propertyExtra}
       label={filterProperty?.propertyLabel}
       name={filterProperty?.key}
-      extra={filterProperty?.propertyExtra}
     >
       <SelectResource
-        style={{ width: '100%' }}
         allowClear
-        shouldFetch={true}
-        mode={filterProperty?.mode}
-        resourceApiPath={filterProperty.apiPath}
-        apiVersion={filterProperty?.apiVersion || '1'}
-        responseObject={filterProperty?.responseObject}
-        labelField={filterProperty?.labelField || ''}
-        valueField={filterProperty?.valueField || ''}
-        needTranslate={filterProperty?.needTranslate}
-        placeholder="Select"
-        dataTestId={filterProperty['data-testid']}
+        apiVersion={filterProperty?.apiVersion || "1"}
+        dataTestId={filterProperty["data-testid"]}
         extraParams={filterProperty?.extraParams}
-        optionRender={filterProperty?.optionRender}
+        labelField={filterProperty?.labelField || ""}
         labelRender={filterProperty?.labelRender}
+        mode={filterProperty?.mode}
+        needTranslate={filterProperty?.needTranslate}
+        optionRender={filterProperty?.optionRender}
+        placeholder="Select"
+        resourceApiPath={filterProperty.apiPath}
+        responseObject={filterProperty?.responseObject}
+        shouldFetch={true}
+        style={{ width: "100%" }}
+        valueField={filterProperty?.valueField || ""}
       />
     </Form.Item>
   )
 }
 
 export const CustomComponentProperty = ({
-  filterProperty,
+  filterProperty
 }: {
   filterProperty: CustomElementPropertyWithOutServer
   form: FormInstance<ObjectLiteral>
@@ -451,9 +454,9 @@ export const CustomComponentProperty = ({
 
   return (
     <Form.Item
+      extra={filterProperty?.propertyExtra}
       label={filterProperty?.propertyLabel}
       name={filterProperty?.key}
-      extra={filterProperty?.propertyExtra}
       valuePropName={filterProperty?.valuePropName}
     >
       {filterProperty.component}

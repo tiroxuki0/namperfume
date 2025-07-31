@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react"
 
 export const useVisible = () => {
   const [visible, setVisible] = useState(false)
@@ -9,6 +9,6 @@ export const useVisible = () => {
   return {
     show: showModal,
     hide: hideModal,
-    visible,
+    visible
   }
 }

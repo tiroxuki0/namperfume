@@ -1,30 +1,33 @@
-'use client'
+"use client"
 
-import React, { useState } from 'react'
-import { Avatar, Dropdown, theme } from 'antd'
-import { Typography } from '@components/Typography'
-import styles from './style.module.css'
-import LogoutPrompt from './LogoutPrompt'
-import { useRouter } from 'next/navigation'
-import ROUTE from '@utils/pageRoutes'
-import Image from 'next/image'
+import React, { useState } from "react"
 
-type UserBulkActionType = 'profile' | 'logout'
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { Avatar, Dropdown, theme } from "antd"
+
+import { Typography } from "@components/Typography"
+import ROUTE from "@utils/pageRoutes"
+
+import styles from "./style.module.css"
+import LogoutPrompt from "./LogoutPrompt"
+
+type UserBulkActionType = "profile" | "logout"
 
 const UserBulkAction = {
-  ManageProfile: 'profile' as UserBulkActionType,
-  Logout: 'logout' as UserBulkActionType,
+  ManageProfile: "profile" as UserBulkActionType,
+  Logout: "logout" as UserBulkActionType
 }
 
 const App = ({
   username,
-  menuItems,
+  menuItems
 }: {
   username?: string
   menuItems?: { key: string; text: string; url: string }[]
 }) => {
   const {
-    token: { colorBgContainer, colorPrimaryBg, geekblue },
+    token: { colorBgContainer, colorPrimaryBg, geekblue }
   } = theme.useToken()
   const [action, setAction] = useState<string | null>(null)
 
@@ -47,20 +50,20 @@ const App = ({
   return (
     <>
       <Dropdown
+        trigger={["click"]}
         menu={{
-          items: (menuItems || []).map((item) => ({
+          items: (menuItems || []).map(item => ({
             key: item?.key,
             label: item?.text,
             href: item?.url,
-            onClick: () => onClick(item),
-          })),
+            onClick: () => onClick(item)
+          }))
         }}
-        trigger={['click']}
       >
         <div className={styles.frame}>
           <Avatar
-            style={{ backgroundColor: colorPrimaryBg, color: geekblue, textTransform: 'uppercase' }}
             shape="square"
+            style={{ backgroundColor: colorPrimaryBg, color: geekblue, textTransform: "uppercase" }}
           >
             {avatar}
           </Avatar>
@@ -69,7 +72,7 @@ const App = ({
             <Typography.Text style={{ color: colorBgContainer }}>{username}</Typography.Text>
           </div>
 
-          <Image src="/images/customArrowDown.svg" alt="svg" width={8} height={8} />
+          <Image alt="svg" height={8} src="/images/customArrowDown.svg" width={8} />
         </div>
       </Dropdown>
 

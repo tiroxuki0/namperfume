@@ -1,8 +1,9 @@
-'use client'
+"use client"
 
-import { I18nextProvider } from 'react-i18next'
-import initTranslations from '@app/i18n'
-import { createInstance } from 'i18next'
+import { I18nextProvider } from "react-i18next"
+import { createInstance } from "i18next"
+
+import initTranslations from "@app/i18n"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

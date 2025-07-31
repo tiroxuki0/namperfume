@@ -1,11 +1,11 @@
-import React from 'react'
-import { i18nNamespaces } from '@root/constant'
-import TranslationsProvider from '@components/TranslationsProvider'
-import dynamic from 'next/dynamic'
-import initTranslations from '@root/src/app/i18n'
+import dynamic from "next/dynamic"
 
-const DynamicPage = dynamic(() => import('@containers/TemplatePage'), {
-  ssr: false,
+import TranslationsProvider from "@components/TranslationsProvider"
+import { i18nNamespaces } from "@root/constant"
+import initTranslations from "@root/src/app/i18n"
+
+const DynamicPage = dynamic(() => import("@containers/TemplatePage"), {
+  ssr: false
 })
 
 export default async function Page(props: { params: { locale: string } }) {
@@ -17,7 +17,7 @@ export default async function Page(props: { params: { locale: string } }) {
   //--------------------------------------------------------------------------> Render
 
   return (
-    <TranslationsProvider namespaces={i18nNamespaces} locale={locale} resources={resources}>
+    <TranslationsProvider locale={locale} namespaces={i18nNamespaces} resources={resources}>
       <DynamicPage />
     </TranslationsProvider>
   )

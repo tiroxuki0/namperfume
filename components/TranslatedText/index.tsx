@@ -1,6 +1,7 @@
-import { startCase } from 'lodash'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import React from "react"
+
+import { startCase } from "lodash"
+import { useTranslation } from "react-i18next"
 
 const TranslatedText = (props: { text: string; localeKey: string; defaultText?: string }) => {
   const { text, localeKey, defaultText } = props

@@ -1,5 +1,6 @@
-import { Steps as AntdSteps, StepsProps } from 'antd'
-import { colorBorder, colorFillBackground } from '@root/design-tokens'
+import { Steps as AntdSteps, StepsProps } from "antd"
+
+import { colorBorder, colorFillBackground } from "@root/design-tokens"
 
 const Steps = (props: StepsProps) => {
   const { children, ...rest } = props
@@ -9,7 +10,7 @@ const Steps = (props: StepsProps) => {
       {...rest}
       style={{
         borderBottom: `1px solid ${colorBorder}`,
-        background: colorFillBackground,
+        background: colorFillBackground
       }}
     >
       {children}

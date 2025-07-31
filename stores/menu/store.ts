@@ -1,7 +1,9 @@
-import { create } from 'zustand'
-import { ItemType } from 'antd/es/menu/interface'
-import { DEFAULT_ROUTE } from '@root/constant'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { create } from "zustand"
+import { ItemType } from "antd/es/menu/interface"
+
+import { persist, createJSONStorage } from "zustand/middleware"
+
+import { DEFAULT_ROUTE } from "@root/constant"
 
 type Store = {
   selectedMenus: ItemType[]
@@ -15,22 +17,22 @@ type Store = {
 export const useStateMenu = create<Store>()(
   // Wrap the original store creator with the 'persist' middleware
   persist(
-    (set) => ({
+    set => ({
       selectedMenus: [],
-      setSelectedMenus: (menu) => set(() => ({ selectedMenus: menu })),
+      setSelectedMenus: menu => set(() => ({ selectedMenus: menu })),
       currentPath: DEFAULT_ROUTE,
       setCurrentPath: (path: string) => set(() => ({ currentPath: path })),
       collapsed: false,
-      setCollapsed: (value: boolean) => set(() => ({ collapsed: value })),
+      setCollapsed: (value: boolean) => set(() => ({ collapsed: value }))
     }),
     {
-      name: 'menu-state-storage', // A unique name for the item in session storage
+      name: "menu-state-storage", // A unique name for the item in session storage
       storage: createJSONStorage(() => sessionStorage), // Specify sessionStorage
       // Use 'partialize' to select which parts of the state to persist.
-      partialize: (state) => ({
+      partialize: state => ({
         currentPath: state.currentPath,
-        collapsed: state.collapsed,
-      }),
+        collapsed: state.collapsed
+      })
     }
   )
 )

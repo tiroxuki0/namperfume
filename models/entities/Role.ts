@@ -1,11 +1,11 @@
-import { PageParams } from '@models/entities/PageParams'
-import { ListResponseType } from '@models/entities/ResponseType'
+import { PageParams } from "@models/entities/PageParams"
+import { ListResponseType } from "@models/entities/ResponseType"
 
-type RoleType = 'managed' | 'custom'
+type RoleType = "managed" | "custom"
 
 export const RoleTypes = {
-  MANAGED: 'managed' as RoleType,
-  CUSTOM: 'custom' as RoleType,
+  MANAGED: "managed" as RoleType,
+  CUSTOM: "custom" as RoleType
 }
 export type Role = {
   uuid: string

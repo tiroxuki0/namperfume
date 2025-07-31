@@ -1,20 +1,26 @@
-'use client'
+"use client"
 
-import React from 'react'
-import styles from './styles.module.css'
-import Button from '@components/Button'
-import { useRouter } from 'next/navigation'
-import { useTranslation } from 'react-i18next'
-import Flex from '@components/Flex'
-import { Typography } from '@components/Typography'
-import Image from 'next/image'
+import React from "react"
+
+import { useRouter } from "next/navigation"
+
+import { useTranslation } from "react-i18next"
+
+import Image from "next/image"
+
+import Button from "@components/Button"
+
+import Flex from "@components/Flex"
+import { Typography } from "@components/Typography"
+
+import styles from "./styles.module.css"
 
 export default function Page() {
   const router = useRouter()
   const { t } = useTranslation()
 
   const onRedirect = () => {
-    router.push('/')
+    router.push("/")
   }
 
   //--------------------------------------------------------------------------> Render
@@ -26,23 +32,23 @@ export default function Page() {
           <Typography.Text
             style={{
               fontWeight: 500,
-              fontSize: 24,
+              fontSize: 24
             }}
           >
-            {t('error.unauthorized.title')}
+            {t("error.unauthorized.title")}
           </Typography.Text>
           <Image src="images/access-denied.svg" alt="403" width={62} height={94} />
 
           <Typography.Text
             style={{
               fontWeight: 400,
-              fontSize: 14,
+              fontSize: 14
             }}
           >
-            {t('error.unauthorized.description')}
+            {t("error.unauthorized.description")}
           </Typography.Text>
-          <Button type="primary" onClick={onRedirect} style={{ width: '100%' }}>
-            {t('button.backToHomePage')}
+          <Button type="primary" onClick={onRedirect} style={{ width: "100%" }}>
+            {t("button.backToHomePage")}
           </Button>
         </Flex>
       </div>

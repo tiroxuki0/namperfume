@@ -1,5 +1,14 @@
 "use client"
+import { useCallback, useMemo, useState } from "react"
+
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
+
+import { Flex, Segmented, TableColumnsType, theme } from "antd"
+
+import { useParams, useRouter } from "next/navigation"
+
+import { useTranslation } from "react-i18next"
+
 import Copy from "@components/Copy"
 import CustomTable from "@components/CustomTable"
 import ButtonDropdown from "@components/Dropdown/ButtonDropdown"
@@ -13,16 +22,14 @@ import useChangeTable from "@root/hooks/useChangeTable"
 import { useDebounceCallback } from "@root/hooks/useDebounce"
 import { toLocalTime } from "@utils/helper"
 import ROUTE from "@utils/pageRoutes"
-import { Flex, Segmented, TableColumnsType, theme } from "antd"
-import { useParams, useRouter } from "next/navigation"
-import { useCallback, useMemo, useState } from "react"
-import { useTranslation } from "react-i18next"
+
+import { SimpleItem } from "@models/entities/Base"
+
 import DeleteSamples from "../components/modals/DeleteSamples"
 import { TEMPLATE_DETAIL_TEST_ID } from "../data-testid"
 import { useGetSample } from "../query/useGetSample"
 import { useGetSamples } from "../query/useGetSamples"
 import { ItemSegment, ItemTab } from "../types"
-import { SimpleItem } from "@models/entities/Base"
 
 const Page = () => {
   const { id } = useParams()
@@ -118,30 +125,40 @@ const Page = () => {
   return (
     <ProtectedRoute>
       <PageLayout
-        type="banner"
         backIcon
-        onBack={handleBack}
-        breadcrumb={{
-          items: [{ title: t("examplePage.breadcrumb") }, { title: <a href={ROUTE.TEMPLATE.LIST}>{t("examplePage.title")}</a> }, { title: sample?.name || t("status.unknown") }]
-        }}
+        styles={{ body: { padding: 24 } }}
         title={sample?.name ?? ""}
-        subTitle={
-          <Flex align="center">
-            <Typography.Text style={{ color: colorBgMask }}>{`${t("title.id")}: ${id ?? ""}`}</Typography.Text>
-            <Copy value={(id as string) ?? ""} />
-          </Flex>
-        }
+        type="banner"
+        breadcrumb={{
+          items: [
+            { title: t("examplePage.breadcrumb") },
+            { title: <a href={ROUTE.TEMPLATE.LIST}>{t("examplePage.title")}</a> },
+            { title: sample?.name || t("status.unknown") }
+          ]
+        }}
         extra={
-          <ButtonDropdown disabled={!sample} items={dropdownItems} data-testid={TEMPLATE_DETAIL_TEST_ID.ACTIONS_DROPDOWN}>
+          <ButtonDropdown
+            data-testid={TEMPLATE_DETAIL_TEST_ID.ACTIONS_DROPDOWN}
+            disabled={!sample}
+            items={dropdownItems}
+          >
             {t("button.actions")}
           </ButtonDropdown>
         }
-        styles={{ body: { padding: 24 } }}
+        subTitle={
+          <Flex align="center">
+            <Typography.Text
+              style={{ color: colorBgMask }}
+            >{`${t("title.id")}: ${id ?? ""}`}</Typography.Text>
+            <Copy value={(id as string) ?? ""} />
+          </Flex>
+        }
+        onBack={handleBack}
       >
         <Flex vertical gap={24}>
           <GeneralDetails
-            loading={isPending}
             columns={2}
+            loading={isPending}
             items={[
               {
                 label: t("title.type"),
@@ -158,25 +175,30 @@ const Page = () => {
             ]}
           />
           <div>
-            <Segmented value={activeTab} onChange={setActiveTab} options={itemsSegment} style={{ borderRadius: 14 }} />
+            <Segmented
+              options={itemsSegment}
+              style={{ borderRadius: 14 }}
+              value={activeTab}
+              onChange={setActiveTab}
+            />
             {/* content map */}
             <div style={{ marginTop: 20 }}>
               <CustomTable<SimpleItem>
-                rowKey="uuid"
-                showFilter={false}
-                scroll={{ x: "max-content" }}
                 columns={columns}
                 dataSource={samples || []}
                 loading={isFetching}
-                onSearch={(value: string) => {
-                  debounced(value)
-                  resetPagination()
-                }}
-                onChange={onChangeTable}
+                rowKey="uuid"
+                scroll={{ x: "max-content" }}
+                showFilter={false}
                 pagination={{
                   current: page,
                   pageSize: perPage,
                   total: meta?.total
+                }}
+                onChange={onChangeTable}
+                onSearch={(value: string) => {
+                  debounced(value)
+                  resetPagination()
                 }}
               />
             </div>
@@ -184,7 +206,14 @@ const Page = () => {
         </Flex>
       </PageLayout>
 
-      {modalId === ACTION.DELETE && sample && <DeleteSamples onSuccess={onDeleteSuccess} onCancel={onCancel} selectedItems={[sample]} open />}
+      {modalId === ACTION.DELETE && sample && (
+        <DeleteSamples
+          open
+          selectedItems={[sample]}
+          onCancel={onCancel}
+          onSuccess={onDeleteSuccess}
+        />
+      )}
     </ProtectedRoute>
   )
 }

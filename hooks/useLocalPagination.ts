@@ -2,8 +2,8 @@ export const useLocalPagination = <T>({
   data,
   pageNumber,
   pageSize,
-  searchTerm = '',
-  searchFields = [],
+  searchTerm = "",
+  searchFields = []
 }: {
   data: T[]
   pageSize: number
@@ -12,8 +12,8 @@ export const useLocalPagination = <T>({
   searchFields?: (keyof T)[]
 }) => {
   const filteredData = searchTerm
-    ? data.filter((item) =>
-        searchFields.some((field) => {
+    ? data.filter(item =>
+        searchFields.some(field => {
           const fieldValue = item[field]
           return fieldValue
             ? String(fieldValue).toLowerCase().includes(searchTerm.toLowerCase())
@@ -30,6 +30,6 @@ export const useLocalPagination = <T>({
   return {
     dataSource,
     totalItems,
-    totalPages,
+    totalPages
   }
 }

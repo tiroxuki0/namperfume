@@ -1,9 +1,12 @@
+import { useQuery } from "@tanstack/react-query"
+
+import { pickBy } from "lodash"
+
 import { getRequest } from "@utils/request"
 import { usersPath } from "@utils/apiEndpoint"
 import { ListResponseType } from "@models/entities/ResponseType"
-import { useQuery } from "@tanstack/react-query"
 import { initialMeta } from "@models/entities/Meta"
-import { pickBy } from "lodash"
+
 import { GetUsersPayload, User } from "@models/entities/User"
 
 const getUsers = async (payload: GetUsersPayload) => {
@@ -14,7 +17,7 @@ const getUsers = async (payload: GetUsersPayload) => {
       {
         ...payload
       },
-      (v) => v !== ""
+      v => v !== ""
     )
   })) as ListResponseType<User>
 }

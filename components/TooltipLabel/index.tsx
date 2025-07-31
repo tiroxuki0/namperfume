@@ -1,7 +1,9 @@
-import { theme, Tooltip } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
-import { TooltipProps } from 'antd/es/tooltip'
-import Flex from '@components/Flex'
+import { theme, Tooltip } from "antd"
+import { InfoCircleOutlined } from "@ant-design/icons"
+import { TooltipProps } from "antd/es/tooltip"
+
+import Flex from "@components/Flex"
+
 type Props = TooltipProps & {
   children: React.ReactNode
   icon?: React.ReactNode

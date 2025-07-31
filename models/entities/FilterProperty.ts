@@ -1,5 +1,6 @@
-import { ReactNode } from 'react'
-import { ObjectLiteral } from './ObjectLiteral'
+import { ReactNode } from "react"
+
+import { ObjectLiteral } from "./ObjectLiteral"
 
 export interface PropertyFilterProperty {
   key: string
@@ -12,21 +13,21 @@ export interface PropertyFilterProperty {
 
 export type SearchFilterPropertyWithOutServer = PropertyFilterProperty & {
   shouldFetchFromServer: false
-  'data-testid'?: string
+  "data-testid"?: string
 }
 
 export type CustomElementPropertyWithOutServer = PropertyFilterProperty & {
   shouldFetchFromServer: false
   component: ReactNode
   valuePropName?: string
-  'data-testid'?: string
+  "data-testid"?: string
 }
 
 export type SelectFilterPropertyWithOutServer = PropertyFilterProperty & {
   shouldFetchFromServer: false
   options: ObjectLiteral[]
-  mode?: 'multiple' | 'tags'
-  'data-testid'?: string
+  mode?: "multiple" | "tags"
+  "data-testid"?: string
 }
 
 export type SwitchFilterProperty = PropertyFilterProperty & {
@@ -34,8 +35,8 @@ export type SwitchFilterProperty = PropertyFilterProperty & {
   defaultChecked?: boolean
   labelFalsy?: string
   labelTruthy?: string
-  valuePropName?: 'checked' | 'checkbox'
-  'data-testid'?: string
+  valuePropName?: "checked" | "checkbox"
+  "data-testid"?: string
 }
 
 export type SelectFilterPropertyWithServer = PropertyFilterProperty & {
@@ -45,9 +46,9 @@ export type SelectFilterPropertyWithServer = PropertyFilterProperty & {
   responseObject: string
   labelField: string
   valueField: string
-  mode?: 'multiple' | 'tags'
+  mode?: "multiple" | "tags"
   needTranslate?: boolean
-  'data-testid'?: string
+  "data-testid"?: string
   extraParams?: Record<string, any>
   optionRender?: (record: any) => React.ReactNode
   labelRender?: (record: any) => React.ReactNode

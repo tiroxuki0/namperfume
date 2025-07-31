@@ -1,5 +1,5 @@
-import { Input as AntdInput, InputProps, InputRef } from 'antd'
-import { PasswordProps } from 'antd/es/input'
+import { Input as AntdInput, InputProps, InputRef } from "antd"
+import { PasswordProps } from "antd/es/input"
 
 const Input = (props: InputProps & React.RefAttributes<InputRef>) => {
   return <AntdInput placeholder="Enter" {...props} />

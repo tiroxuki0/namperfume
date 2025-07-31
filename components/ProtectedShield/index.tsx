@@ -1,15 +1,17 @@
-import { useRouter } from 'next/navigation'
-import { FC, PropsWithChildren, ReactNode, useEffect } from 'react'
-import { useUserSession } from '@root/hooks/useUserSession'
-import { usePermissions } from '@root/hooks/usePermissions'
-import { Spin } from 'antd'
+import { FC, PropsWithChildren, ReactNode, useEffect } from "react"
+
+import { useRouter } from "next/navigation"
+import { Spin } from "antd"
+
+import { useUserSession } from "@root/hooks/useUserSession"
+import { usePermissions } from "@root/hooks/usePermissions"
 
 export type ProtectedRouteProps = {
   permission?: string | string[]
   empty?: ReactNode
 }
 
-const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = (props) => {
+const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = props => {
   const { children, permission: requiredPermission, empty } = props
 
   const { permissions, isLoading: isUserLoading, status } = useUserSession() // Hook 1
@@ -21,10 +23,10 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = (props) => {
   useEffect(() => {
     if (isUserLoading || isPermissionsLoading || !permissions) return // Wait for data
 
-    if (requiredPermission === '' || typeof requiredPermission === 'undefined') return
+    if (requiredPermission === "" || typeof requiredPermission === "undefined") return
 
     if (!isAllowed && !empty) {
-      router.push('/403')
+      router.push("/403")
     }
   }, [
     isAllowed,
@@ -33,12 +35,12 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = (props) => {
     empty,
     router,
     isUserLoading,
-    isPermissionsLoading,
+    isPermissionsLoading
   ])
 
   // TODO: at status for reproduce weirdo bug
 
-  if (status === 'error') {
+  if (status === "error") {
     return null
   }
 
@@ -51,7 +53,7 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = (props) => {
     return <>{empty}</>
   }
 
-  if (!isAllowed && permissions && !empty && requiredPermission && requiredPermission !== '') {
+  if (!isAllowed && permissions && !empty && requiredPermission && requiredPermission !== "") {
     // This case should be handled by the redirect, but as a fallback,
     // you might render null or a generic "not authorized" message
     // if you want to prevent children from rendering before redirect effect runs.
@@ -59,7 +61,7 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = (props) => {
   }
 
   // Only render children if allowed, or if no specific permission was required
-  if (isAllowed || (!requiredPermission && requiredPermission !== '')) {
+  if (isAllowed || (!requiredPermission && requiredPermission !== "")) {
     return <>{children}</>
   }
 

@@ -1,5 +1,6 @@
-import { create } from 'zustand'
-import { Permissions } from '@models/entities/Permission'
+import { create } from "zustand"
+
+import { Permissions } from "@models/entities/Permission"
 
 type Store = {
   permissions: Permissions | null
@@ -8,7 +9,7 @@ type Store = {
   setPermissionsStore: ({
     permissions,
     isLoading,
-    status,
+    status
   }: {
     permissions?: Permissions
     isLoading: boolean
@@ -16,17 +17,17 @@ type Store = {
   }) => void
 }
 
-export const usePermissionsStore = create<Store>()((set) => ({
+export const usePermissionsStore = create<Store>()(set => ({
   permissions: null,
   isLoading: false,
-  status: 'idle',
+  status: "idle",
   setPermissionsStore: ({
     permissions,
     isLoading,
-    status,
+    status
   }: {
     permissions?: Permissions
     isLoading: boolean
     status: string
-  }) => set(() => ({ permissions: permissions, isLoading, status })),
+  }) => set(() => ({ permissions: permissions, isLoading, status }))
 }))

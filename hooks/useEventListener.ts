@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from "react"
 
-import type { RefObject } from 'react'
-import { useIsomorphicLayoutEffect } from '@root/hooks/useIsomorphicLayoutEffect'
+import type { RefObject } from "react"
+
+import { useIsomorphicLayoutEffect } from "@root/hooks/useIsomorphicLayoutEffect"
 
 // MediaQueryList Event based useEventListener interface
 function useEventListener<K extends keyof MediaQueryListEventMap>(
@@ -22,7 +23,7 @@ function useEventListener<K extends keyof WindowEventMap>(
 // Element Event based useEventListener interface
 function useEventListener<
   K extends keyof HTMLElementEventMap & keyof SVGElementEventMap,
-  T extends Element = K extends keyof HTMLElementEventMap ? HTMLDivElement : SVGElement,
+  T extends Element = K extends keyof HTMLElementEventMap ? HTMLDivElement : SVGElement
 >(
   eventName: K,
   handler: ((event: HTMLElementEventMap[K]) => void) | ((event: SVGElementEventMap[K]) => void),
@@ -42,7 +43,7 @@ function useEventListener<
   KW extends keyof WindowEventMap,
   KH extends keyof HTMLElementEventMap & keyof SVGElementEventMap,
   KM extends keyof MediaQueryListEventMap,
-  T extends HTMLElement | SVGAElement | MediaQueryList = HTMLElement,
+  T extends HTMLElement | SVGAElement | MediaQueryList = HTMLElement
 >(
   eventName: KW | KH | KM,
   handler: (
@@ -70,7 +71,7 @@ function useEventListener<
     if (!(targetElement && targetElement.addEventListener)) return
 
     // Create event listener that calls handler function stored in ref
-    const listener: typeof handler = (event) => {
+    const listener: typeof handler = event => {
       savedHandler.current(event)
     }
 

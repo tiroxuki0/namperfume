@@ -1,6 +1,8 @@
-import { Button as AntdButton, ButtonProps } from 'antd'
-import React from 'react'
-import { usePermissions } from '@root/hooks/usePermissions'
+import React from "react"
+
+import { Button as AntdButton, ButtonProps } from "antd"
+
+import { usePermissions } from "@root/hooks/usePermissions"
 
 export interface _ButtonProps extends ButtonProps {
   permission?: string | string[]
@@ -9,9 +11,9 @@ export interface _ButtonProps extends ButtonProps {
 const Button = (props: _ButtonProps) => {
   const { children, permission, ...rest } = props
 
-  const { checkPermission } = usePermissions('')
+  const { checkPermission } = usePermissions("")
 
-  const isAllowed = checkPermission(permission || '')
+  const isAllowed = checkPermission(permission || "")
 
   if (!isAllowed) {
     return null

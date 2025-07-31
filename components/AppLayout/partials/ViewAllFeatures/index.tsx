@@ -1,16 +1,18 @@
-import ItemNavigation from '@components/AppLayout/partials/ViewAllFeatures/partials/ItemNavigation'
-import SideNavigation from '@components/AppLayout/partials/ViewAllFeatures/partials/SideNavigation'
-import Flex from '@components/Flex'
-import ModalDialog from '@components/ModalDialog'
-import { Menu } from '@models/entities/Menu'
-import { colorFillBackground } from '@root/design-tokens'
-import { useDebounceCallback } from '@root/hooks/useDebounce'
-import { useRecursiveMenuNavigation } from '@root/hooks/useRecursiveMenuNavigation'
-import { useGetMenu } from '@root/queries/useGetMenu'
-import { Col, Divider, Empty, Input, InputRef, Row } from 'antd'
+import { useEffect, useMemo, useRef, useState } from "react"
+
+import { useRouter } from "next/navigation"
+import { Col, Divider, Empty, Input, InputRef, Row } from "antd"
+
+import ItemNavigation from "@components/AppLayout/partials/ViewAllFeatures/partials/ItemNavigation"
+import SideNavigation from "@components/AppLayout/partials/ViewAllFeatures/partials/SideNavigation"
+import Flex from "@components/Flex"
+import ModalDialog from "@components/ModalDialog"
+import { Menu } from "@models/entities/Menu"
+import { colorFillBackground } from "@root/design-tokens"
+import { useDebounceCallback } from "@root/hooks/useDebounce"
+import { useRecursiveMenuNavigation } from "@root/hooks/useRecursiveMenuNavigation"
+import { useGetMenu } from "@root/queries/useGetMenu"
 // import { env } from 'next-runtime-env'
-import { useRouter } from 'next/navigation'
-import { useEffect, useMemo, useRef, useState } from 'react'
 
 interface Props {
   onClose: () => void
@@ -28,7 +30,7 @@ const filterDataByName = (data: Menu[], name: string) => {
 
       // Check if the parent name matches
       const parentMatches =
-        (parent.name || '').toLowerCase().includes(name.toLowerCase()) || parent.path === name
+        (parent.name || "").toLowerCase().includes(name.toLowerCase()) || parent.path === name
 
       // If parent matches, keep all its children
       if (parentMatches) {
@@ -54,10 +56,10 @@ const ViewAllFeatures = ({ onClose }: Props) => {
 
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const startKey = (defaultOpenKeysRefs?.current || []).at(0) || ''
-  const endKey = (defaultOpenKeysRefs?.current || []).at(-1) || ''
+  const startKey = (defaultOpenKeysRefs?.current || []).at(0) || ""
+  const endKey = (defaultOpenKeysRefs?.current || []).at(-1) || ""
 
-  const [search, setSearch] = useState<string>('')
+  const [search, setSearch] = useState<string>("")
 
   const debounced = useDebounceCallback(setSearch, 500)
 
@@ -96,18 +98,18 @@ const ViewAllFeatures = ({ onClose }: Props) => {
   return (
     <ModalDialog
       open
-      width={960}
       title="All features"
-      onCancel={onClose}
+      width={960}
       styles={{
         body: { padding: 8, paddingTop: 0, paddingBottom: 0 },
         header: {
-          marginBottom: 0,
+          marginBottom: 0
         },
         footer: {
-          marginTop: 0,
-        },
+          marginTop: 0
+        }
       }}
+      onCancel={onClose}
       footer={null}
       // footer={[
       //   <Flex key={'documentation'}>
@@ -122,21 +124,21 @@ const ViewAllFeatures = ({ onClose }: Props) => {
     >
       <Flex vertical gap={12} style={{ paddingTop: 12 }}>
         <Input.Search
-          ref={inputRef}
           placeholder="Search"
-          style={{ width: '25%' }}
-          onChange={(ev) => debounced(ev.target.value)}
-          onSearch={(value) => {
+          ref={inputRef}
+          style={{ width: "25%" }}
+          onChange={ev => debounced(ev.target.value)}
+          onSearch={value => {
             debounced(value)
           }}
         />
         <Divider style={{ margin: 0 }} />
         <MenuSpotLight
-          selectedParentId={selectedId || startKey}
-          onSelectMenu={onSelectMenu}
-          onClose={onClose}
           menu={filteredMenu || []}
-          selectedChildrenId={endKey || ''}
+          selectedChildrenId={endKey || ""}
+          selectedParentId={selectedId || startKey}
+          onClose={onClose}
+          onSelectMenu={onSelectMenu}
         />
       </Flex>
     </ModalDialog>
@@ -156,11 +158,11 @@ const MenuSpotLight = ({
   onSelectMenu,
   onClose,
   menu,
-  selectedChildrenId,
+  selectedChildrenId
 }: MenuProps) => {
   const { push } = useRouter()
 
-  const filterMenuById = (m: Menu) => (m.id || '').toString() === selectedParentId
+  const filterMenuById = (m: Menu) => (m.id || "").toString() === selectedParentId
 
   const flattenMenu = (m: Menu) => m.children
 
@@ -173,25 +175,25 @@ const MenuSpotLight = ({
     <Row gutter={[12, 12]} style={{ marginTop: -12 }}>
       <Col
         span={6}
-        style={{ padding: 12, background: colorFillBackground, borderRight: '1px solid #D9D9D9' }}
+        style={{ padding: 12, background: colorFillBackground, borderRight: "1px solid #D9D9D9" }}
       >
-        <SideNavigation id={selectedParentId || ''} onChange={onSelectMenu} menu={menu || []} />
+        <SideNavigation id={selectedParentId || ""} menu={menu || []} onChange={onSelectMenu} />
       </Col>
       <Col
         span={18}
         style={{
-          maxHeight: '60vh',
-          overflow: 'auto',
-          padding: 12,
+          maxHeight: "60vh",
+          overflow: "auto",
+          padding: 12
         }}
       >
         <ItemNavigation
-          selectedId={selectedChildrenId || ''}
+          items={selectedMenusItems || []}
+          selectedId={selectedChildrenId || ""}
           onChange={(path: string) => {
             push(path)
             onClose?.()
           }}
-          items={selectedMenusItems || []}
         />
       </Col>
     </Row>

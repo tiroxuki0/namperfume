@@ -13,22 +13,24 @@
   }
 
   * {
-    @apply border-border;
+    box-sizing: border-box;
   }
 
   body {
-    @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+    font-family: Inter, system-ui, sans-serif;
   }
 }
 
 /* Custom component styles */
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors;
+    @apply rounded-lg bg-primary-600 px-4 py-2 text-white transition-colors hover:bg-primary-700;
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-soft border border-gray-200 p-6;
+    @apply rounded-xl border border-gray-200 bg-white p-6 shadow-soft;
   }
 }
 

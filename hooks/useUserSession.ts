@@ -1,5 +1,5 @@
-import { useProfileStore } from '@root/stores/profile/store'
-import { usePermissionsStore } from '@root/stores/permissions/store'
+import { useProfileStore } from "@root/stores/profile/store"
+import { usePermissionsStore } from "@root/stores/permissions/store"
 
 export function useUserSession() {
   const { profileState } = useProfileStore()

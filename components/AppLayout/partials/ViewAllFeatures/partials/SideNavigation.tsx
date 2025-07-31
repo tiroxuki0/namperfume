@@ -1,8 +1,9 @@
-import { Menu } from '@models/entities/Menu'
-import Flex from '@components/Flex'
-import { Typography } from '@components/Typography'
-import Image from 'next/image'
-import { theme } from 'antd'
+import Image from "next/image"
+import { theme } from "antd"
+
+import { Menu } from "@models/entities/Menu"
+import Flex from "@components/Flex"
+import { Typography } from "@components/Typography"
 
 interface Props {
   menu: Menu[]
@@ -15,34 +16,34 @@ const SideNavigation = ({ menu, onChange, id }: Props) => {
 
   return (
     <Flex vertical gap={8}>
-      {(menu || []).map((item) => {
+      {(menu || []).map(item => {
         return (
           <Flex
-            key={item?.id?.toString()}
-            onClick={() => onChange?.(item?.id?.toString() || '')}
+            align="center"
             gap={4}
             justify="space-between"
-            align="center"
+            key={item?.id?.toString()}
             style={{
               padding: 12,
               ...(id === item?.id?.toString() && {
                 borderRadius: 12,
-                background: token.colorPrimaryBg,
-              }),
+                background: token.colorPrimaryBg
+              })
             }}
+            onClick={() => onChange?.(item?.id?.toString() || "")}
           >
             <Typography.Text
               style={{
-                cursor: 'pointer',
+                cursor: "pointer",
                 ...(id === item?.id?.toString() && {
-                  color: token.colorPrimary,
-                }),
+                  color: token.colorPrimary
+                })
               }}
-              onClick={() => onChange?.(item?.id?.toString() || '')}
+              onClick={() => onChange?.(item?.id?.toString() || "")}
             >
               {item?.name}
             </Typography.Text>
-            <Image src="/images/customLeftArrow.svg" alt="left-arrow" width={10} height={9} />
+            <Image alt="left-arrow" height={9} src="/images/customLeftArrow.svg" width={10} />
           </Flex>
         )
       })}

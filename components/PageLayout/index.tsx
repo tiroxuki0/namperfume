@@ -1,13 +1,16 @@
-import { ArrowLeftOutlined } from '@ant-design/icons'
-import Breadcrumb from '@components/Breadcrumb'
-import Flex from '@components/Flex'
-import { Typography } from '@components/Typography'
-import { useStateMenu } from '@root/stores/menu/store'
-import { BreadcrumbProps, Card, Col, Row, Skeleton, theme } from 'antd'
-import { AnyObject } from 'antd/es/_util/type'
-import classNames from 'classnames'
-import React, { ReactNode, useMemo } from 'react'
-import footerStyles from './styles.module.css'
+import React, { ReactNode, useMemo } from "react"
+
+import { ArrowLeftOutlined } from "@ant-design/icons"
+import { BreadcrumbProps, Card, Col, Row, Skeleton, theme } from "antd"
+import { AnyObject } from "antd/es/_util/type"
+import classNames from "classnames"
+
+import Breadcrumb from "@components/Breadcrumb"
+import Flex from "@components/Flex"
+import { Typography } from "@components/Typography"
+import { useStateMenu } from "@root/stores/menu/store"
+
+import footerStyles from "./styles.module.css"
 
 type HeaderBreadcrumbProps<T extends AnyObject> = BreadcrumbProps<T>
 
@@ -28,7 +31,7 @@ interface Props<T extends AnyObject> {
     actions?: React.CSSProperties
     cover?: React.CSSProperties
   }
-  type?: 'banner' | 'card'
+  type?: "banner" | "card"
   loading?: boolean
   footer?: ReactNode
   isFetching?: boolean
@@ -44,31 +47,31 @@ const PageLayout = <T extends AnyObject>(props: Props<T>) => {
     children,
     onBack,
     styles,
-    type = 'card',
+    type = "card",
     loading,
     footer,
-    isFetching,
+    isFetching
   } = props
 
   const {
-    token: { colorPrimaryBg, colorFillTertiary, colorFillSecondary },
+    token: { colorPrimaryBg, colorFillTertiary, colorFillSecondary }
   } = theme.useToken()
 
   const { collapsed } = useStateMenu()
 
   const renderIcon = useMemo(() => {
-    if (typeof backIcon === 'boolean' && !backIcon) return null
+    if (typeof backIcon === "boolean" && !backIcon) return null
 
     return <ArrowLeftOutlined onClick={() => onBack?.()} />
   }, [backIcon, onBack])
 
   const renderTitle = useMemo(() => {
-    if (typeof title === 'string') {
+    if (typeof title === "string") {
       return isFetching || loading ? (
         <Skeleton.Input
           active
           style={{
-            height: 24,
+            height: 24
           }}
         />
       ) : (
@@ -81,9 +84,9 @@ const PageLayout = <T extends AnyObject>(props: Props<T>) => {
   }, [title, isFetching, loading])
 
   const renderSubtitle = useMemo(() => {
-    if (typeof subTitle === 'string') {
+    if (typeof subTitle === "string") {
       return (
-        <Typography.Text type="secondary" style={{ margin: 0 }}>
+        <Typography.Text style={{ margin: 0 }} type="secondary">
           {subTitle}
         </Typography.Text>
       )
@@ -92,23 +95,23 @@ const PageLayout = <T extends AnyObject>(props: Props<T>) => {
   }, [subTitle])
 
   const renderBreadcrumb = useMemo(() => {
-    if (typeof breadcrumb === 'undefined') return null
+    if (typeof breadcrumb === "undefined") return null
 
     const { items } = breadcrumb
 
-    const breadcrumbItems = (items || []).map((item) => {
+    const breadcrumbItems = (items || []).map(item => {
       const { href, title, ...rest } = item
       if (href) {
         return {
           ...rest,
-          title: <Typography.Link href={href}>{title}</Typography.Link>,
+          title: <Typography.Link href={href}>{title}</Typography.Link>
         }
       }
       return item
     })
     return {
       ...breadcrumb,
-      items: breadcrumbItems,
+      items: breadcrumbItems
     }
   }, [breadcrumb])
 
@@ -116,46 +119,46 @@ const PageLayout = <T extends AnyObject>(props: Props<T>) => {
 
   return (
     <Card
-      loading={loading}
       key="title"
+      loading={loading}
+      style={{
+        border: "none"
+      }}
       styles={{
         header: {
-          padding: '16px 24px',
+          padding: "16px 24px",
           fontWeight: 400,
-          ...(type === 'banner' && {
+          ...(type === "banner" && {
             backgroundImage: `url(/images/pac.svg)`,
-            backgroundPosition: 'right -20px top 0',
-            backgroundRepeat: 'no-repeat',
-            backgroundAttachment: 'scroll',
-            backgroundOrigin: 'padding-box',
-            backgroundClip: 'border-box',
+            backgroundPosition: "right -20px top 0",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "scroll",
+            backgroundOrigin: "padding-box",
+            backgroundClip: "border-box",
             backgroundColor: colorPrimaryBg,
             padding: 24,
-            borderRadius: 0,
+            borderRadius: 0
           }),
-          ...styles?.header,
+          ...styles?.header
         },
         body: {
-          padding: '8px 24px',
+          padding: "8px 24px"
         },
         title: {
-          fontWeight: 'normal',
+          fontWeight: "normal"
         },
-        ...styles,
-      }}
-      style={{
-        border: 'none',
+        ...styles
       }}
       title={
         <Row gutter={[12, 12]}>
-          {typeof breadcrumb !== 'undefined' && (
+          {typeof breadcrumb !== "undefined" && (
             <Col span={24}>
               <Breadcrumb {...renderBreadcrumb} />
             </Col>
           )}
 
           <Col span={24}>
-            <Flex justify="space-between" align="center">
+            <Flex align="center" justify="space-between">
               <Flex align="baseline" gap={8}>
                 {renderIcon}
                 <Flex vertical gap={8}>
@@ -169,17 +172,17 @@ const PageLayout = <T extends AnyObject>(props: Props<T>) => {
         </Row>
       }
     >
-      <Row>{children && <Col span={24}>{children}</Col>}</Row>{' '}
+      <Row>{children && <Col span={24}>{children}</Col>}</Row>{" "}
       {footer && (
         <Col
+          span={24}
           className={classNames(footerStyles.footer, {
-            [footerStyles.expand]: !collapsed,
+            [footerStyles.expand]: !collapsed
           })}
           style={{
             borderTop: `1px solid ${colorFillSecondary}`,
-            background: colorFillTertiary,
+            background: colorFillTertiary
           }}
-          span={24}
         >
           {footer}
         </Col>

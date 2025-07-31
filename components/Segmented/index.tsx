@@ -1,4 +1,4 @@
-import { SegmentedProps, Segmented as AntdSegmented } from 'antd'
+import { SegmentedProps, Segmented as AntdSegmented } from "antd"
 
 const Segmented = (props: SegmentedProps) => {
   const { children, ...rest } = props

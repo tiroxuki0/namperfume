@@ -1,8 +1,13 @@
-import { Menu as MenuType } from "@models/entities/Menu"
-import { usePathname } from "next/navigation"
 import { useCallback, useMemo } from "react"
-import { DEFAULT_ROUTE } from "@root/constant"
+
+import { usePathname } from "next/navigation"
+
 import { ItemType } from "antd/es/menu/interface"
+
+import { Menu as MenuType } from "@models/entities/Menu"
+
+import { DEFAULT_ROUTE } from "@root/constant"
+
 import { useGetMenu } from "@root/queries/useGetMenu"
 
 export const useRecursiveMenuNavigation = () => {
@@ -10,9 +15,11 @@ export const useRecursiveMenuNavigation = () => {
 
   function filterDataByPath(data: MenuType[], name: string): MenuType[] {
     return data
-      .map((parent) => {
+      .map(parent => {
         // Recursively filter children first
-        const filteredChildren = parent.children ? filterDataByPath(parent.children, name).filter(Boolean) : []
+        const filteredChildren = parent.children
+          ? filterDataByPath(parent.children, name).filter(Boolean)
+          : []
 
         // Check if the parent name matches
         const parentMatches = parent.path === name
@@ -48,7 +55,7 @@ export const useRecursiveMenuNavigation = () => {
   function getAllPaths(data: MenuType[]): string[] {
     let paths: string[] = []
 
-    data.forEach((item) => {
+    data.forEach(item => {
       // Add the path of the current item
       if (item.path && item.path !== "#") {
         paths.push(item.path)
@@ -74,13 +81,13 @@ export const useRecursiveMenuNavigation = () => {
   }
 
   const findPathName = (pathName: string, allPaths: string[]) => {
-    const results = allPaths.filter((path) => path === pathName)
+    const results = allPaths.filter(path => path === pathName)
     if (results.length === 0) {
       const newPathName = splitString(pathName)
       if (!newPathName) return []
       return findPathName(newPathName, allPaths)
     }
-    return allPaths.filter((path) => path === pathName)
+    return allPaths.filter(path => path === pathName)
   }
 
   const urlPathName = usePathname()
@@ -96,7 +103,7 @@ export const useRecursiveMenuNavigation = () => {
   }, [urlPathName, menuItems])
 
   const findItemsByPath = useCallback((path: string, items: MenuType[]): MenuType[] => {
-    return items.filter((item) => {
+    return items.filter(item => {
       if ("children" in item && item?.children?.length > 0) {
         return !!findItemsByPath(path, item?.children)?.length
       }
@@ -145,7 +152,9 @@ export const useRecursiveMenuNavigation = () => {
     return (selectedMenus || []).map((menu: MenuType) => handleMenu(menu))
   }, [selectedMenus, handleMenu])
 
-  const flattenedChildren = (items || []).flatMap((item) => (item && "children" in item ? item?.children : [])).filter(Boolean) as ItemType[]
+  const flattenedChildren = (items || [])
+    .flatMap(item => (item && "children" in item ? item?.children : []))
+    .filter(Boolean) as ItemType[]
 
   return {
     items,

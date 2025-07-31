@@ -9,7 +9,7 @@ type Store = {
   setActiveProfileTab: (tab: string) => void
 }
 
-export const useProfileStore = create<Store>()((set) => ({
+export const useProfileStore = create<Store>()(set => ({
   profileState: null,
   currencyState: {
     code: "USD",
@@ -26,5 +26,5 @@ export const useProfileStore = create<Store>()((set) => ({
   activeTab: "profile",
   setActiveProfileTab: (tab: string) => set(() => ({ activeTab: tab })),
   setLoading: (value: boolean) => set(() => ({ loading: value })),
-  setProfile: (profile) => set(() => ({ profileState: profile }))
+  setProfile: profile => set(() => ({ profileState: profile }))
 }))

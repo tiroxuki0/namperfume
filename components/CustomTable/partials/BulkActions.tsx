@@ -1,17 +1,20 @@
-'use client'
+"use client"
 
-import Button from '@components/Button'
-import Divider from '@components/Divider'
-import Flex from '@components/Flex'
-import { Typography } from '@components/Typography'
-import { Card, Space, theme } from 'antd'
-import React, { ReactNode } from 'react'
-import { RetweetOutlined } from '@ant-design/icons'
-import ConfigProvider from '@components/ConfigProvider'
-import { borderRadius } from '@root/design-tokens'
-import { pluralizeSelected } from '@utils/helper'
-import { BulkActionType } from '../types'
-import { usePermissions } from '@root/hooks/usePermissions'
+import React, { ReactNode } from "react"
+
+import { Card, Space, theme } from "antd"
+import { RetweetOutlined } from "@ant-design/icons"
+
+import Button from "@components/Button"
+import Divider from "@components/Divider"
+import Flex from "@components/Flex"
+import { Typography } from "@components/Typography"
+import ConfigProvider from "@components/ConfigProvider"
+import { borderRadius } from "@root/design-tokens"
+import { pluralizeSelected } from "@utils/helper"
+import { usePermissions } from "@root/hooks/usePermissions"
+
+import { BulkActionType } from "../types"
 
 interface Props {
   name?: string
@@ -28,16 +31,16 @@ const BulkActions = ({
   onClearSelection,
   bulkActions,
   onItemClick,
-  customTitle,
+  customTitle
 }: Props) => {
   const {
-    token: { colorPrimary },
+    token: { colorPrimary }
   } = theme.useToken()
 
-  const { checkPermission } = usePermissions('')
+  const { checkPermission } = usePermissions("")
 
   const bulkActionsWithPermission = (bulkActions || []).filter(({ permission }) => {
-    return checkPermission?.(permission || '')
+    return checkPermission?.(permission || "")
   })
 
   if (bulkActionsWithPermission?.length === 0) return null
@@ -49,29 +52,29 @@ const BulkActions = ({
       theme={{
         components: {
           Card: {
-            borderRadiusLG: borderRadius,
-          },
-        },
+            borderRadiusLG: borderRadius
+          }
+        }
       }}
     >
       <div>
         <Card
           style={{
             border: `1px solid ${colorPrimary}`,
-            borderRadius: borderRadius,
+            borderRadius: borderRadius
           }}
           styles={{
             body: {
-              padding: '4px 12px',
-            },
+              padding: "4px 12px"
+            }
           }}
         >
-          <Flex gap={8} align="center" justify="space-between">
+          <Flex align="center" gap={8} justify="space-between">
             <Typography.Text
-              style={{
-                wordBreak: 'keep-all',
-              }}
               strong
+              style={{
+                wordBreak: "keep-all"
+              }}
             >
               {customTitle?.(`${pluralizeSelected(totalItems)} selected:}`) ||
                 `${pluralizeSelected(totalItems)} selected:`}
@@ -79,11 +82,11 @@ const BulkActions = ({
 
             <div>
               <Space>
-                {(bulkActionsWithPermission || []).map((bulkAction) => {
+                {(bulkActionsWithPermission || []).map(bulkAction => {
                   const { text, id, permission, ...rest } = bulkAction
                   const { isHide } = rest
 
-                  const isAllowToClick = checkPermission?.(permission || '')
+                  const isAllowToClick = checkPermission?.(permission || "")
 
                   if (!isAllowToClick) return null
                   if (isHide) return null
@@ -99,11 +102,11 @@ const BulkActions = ({
                 })}
               </Space>
               <Button
-                type="link"
+                data-testid={`${name ? `${name}-` : ""}selection-clear-button`}
                 icon={<RetweetOutlined />}
                 iconPosition="start"
+                type="link"
                 onClick={onClearSelection}
-                data-testid={`${name ? `${name}-` : ''}selection-clear-button`}
               >
                 Clear selection
               </Button>

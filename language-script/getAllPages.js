@@ -1,5 +1,5 @@
-import fs from 'fs'
+import fs from "fs"
 
 export const getAllPages = () => {
-  return fs.readdirSync("./containers");
-};
+  return fs.readdirSync("./containers")
+}

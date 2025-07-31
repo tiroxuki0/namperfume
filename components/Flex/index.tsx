@@ -1,4 +1,4 @@
-import { Flex as AntdFlex, FlexProps } from 'antd'
+import { Flex as AntdFlex, FlexProps } from "antd"
 
 const Flex = (props: FlexProps) => {
   const { children, ...rest } = props

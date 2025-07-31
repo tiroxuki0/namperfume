@@ -1,5 +1,5 @@
-import { Breadcrumb as AntBreadcrumb, BreadcrumbProps } from 'antd'
-import { AnyObject } from 'antd/es/_util/type'
+import { Breadcrumb as AntBreadcrumb, BreadcrumbProps } from "antd"
+import { AnyObject } from "antd/es/_util/type"
 
 type Props<T extends AnyObject> = BreadcrumbProps<T>
 
@@ -11,8 +11,8 @@ const Breadcrumb = <T extends AnyObject>(props: Props<T>) => {
     items && items?.length > 5
       ? [
           ...items.slice(0, 2), // First two levels
-          { title: '...' }, // Ellipsis for middle levels
-          ...items.slice(items.length - 3), // Last three levels
+          { title: "..." }, // Ellipsis for middle levels
+          ...items.slice(items.length - 3) // Last three levels
         ]
       : items
 

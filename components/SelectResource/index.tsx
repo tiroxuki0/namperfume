@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react"
+
+import Image from "next/image"
 import { Select, Space } from "antd"
 import { BaseOptionType, DefaultOptionType, SelectProps } from "antd/es/select"
-import { getRequest } from "@utils/request"
 import { useQuery } from "@tanstack/react-query"
 import { capitalize, get, groupBy } from "lodash"
-import { ListResponseType } from "@models/entities/ResponseType"
 import { useTranslation } from "react-i18next"
+
+import { ListResponseType } from "@models/entities/ResponseType"
+import { getRequest } from "@utils/request"
 import { useDebounceCallback } from "@root/hooks/useDebounce"
 import { ObjectLiteral } from "@models/entities/ObjectLiteral"
 import { Typography } from "@components/Typography"
-import Image from "next/image"
 
 type SelectResourceWithServer = Partial<{
   dataTestId?: string
@@ -56,7 +58,8 @@ const getResources = (payload: SelectResourceWithServer & { search?: string }) =
 }
 
 const SelectResource = <T = any, O extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
-  props: Omit<React.PropsWithChildren<SelectProps<T, O>> & React.RefAttributes<any>, "options"> & SelectResourceWithServer
+  props: Omit<React.PropsWithChildren<SelectProps<T, O>> & React.RefAttributes<any>, "options"> &
+    SelectResourceWithServer
 ) => {
   const {
     dataTestId,
@@ -148,10 +151,19 @@ const SelectResource = <T = any, O extends BaseOptionType | DefaultOptionType = 
         const groupLabel = get(items[0], keyGroupOption)
         return {
           label: <span>{groupLabel}</span>,
-          title: <Typography.TextWeight500 style={{ color: "#00000073", fontSize: 35 }}>{groupLabel}</Typography.TextWeight500>,
+          title: (
+            <Typography.TextWeight500 style={{ color: "#00000073", fontSize: 35 }}>
+              {groupLabel}
+            </Typography.TextWeight500>
+          ),
           options: items.map((source: any) => ({
             value: valueField && valueField in source ? source[valueField] : "",
-            label: labelField && labelField in source ? (needTranslate ? t(`select.${source[labelField]}`) : source[labelField]) : "",
+            label:
+              labelField && labelField in source
+                ? needTranslate
+                  ? t(`select.${source[labelField]}`)
+                  : source[labelField]
+                : "",
             image: showImageOption ? source?.[keyImageOption as string] : "",
             record: source
           }))
@@ -187,12 +199,24 @@ const SelectResource = <T = any, O extends BaseOptionType | DefaultOptionType = 
         }
       }) as O[]
     )
-  }, [filteredDataSources, labelField, valueField, needTranslate, t, optionRender, filterOption, upperFirstLabel, shouldDisableOption, isGroupOption, keyGroupOption])
+  }, [
+    filteredDataSources,
+    labelField,
+    valueField,
+    needTranslate,
+    t,
+    optionRender,
+    filterOption,
+    upperFirstLabel,
+    shouldDisableOption,
+    isGroupOption,
+    keyGroupOption
+  ])
 
   const selectOptions = useMemo(() => {
     if (!fallbackOptions?.length) return options
     const optionValues = options.map((opt: any) => opt.value)
-    const deletedOptions = fallbackOptions.filter((opt) => !optionValues.includes(opt.value))
+    const deletedOptions = fallbackOptions.filter(opt => !optionValues.includes(opt.value))
 
     return [...options, ...deletedOptions] as O[]
   }, [options, fallbackOptions])
@@ -202,20 +226,23 @@ const SelectResource = <T = any, O extends BaseOptionType | DefaultOptionType = 
       optionFilterProp={optionFilterProp}
       placeholder="Select"
       {...rest}
-      showSearch={showSearch}
+      data-testid={dataTestId}
       filterOption={filterOption}
-      onSearch={
-        filterOption
-          ? undefined
-          : (value) => {
-              debounceSearch(value)
-            }
-      }
+      loading={rest.loading || query.isFetching}
       options={selectOptions}
-      optionRender={(option) => (
+      showSearch={showSearch}
+      optionRender={option => (
         <Space>
           <span style={{ display: "flex", alignItems: "center", marginBottom: 0 }}>
-            {showImageOption && <Image width={25} height={25} alt={option.data.image || ""} src={option.data.image || ""} style={{ marginRight: 10 }} />}
+            {showImageOption && (
+              <Image
+                alt={option.data.image || ""}
+                height={25}
+                src={option.data.image || ""}
+                style={{ marginRight: 10 }}
+                width={25}
+              />
+            )}
             {(option as any).data.customNode || option.label}
           </span>
         </Space>
@@ -225,8 +252,13 @@ const SelectResource = <T = any, O extends BaseOptionType | DefaultOptionType = 
         opacity: `${rest.loading || query.isFetching ? "0.5" : 1}`,
         ...rest.style
       }}
-      data-testid={dataTestId}
-      loading={rest.loading || query.isFetching}
+      onSearch={
+        filterOption
+          ? undefined
+          : value => {
+              debounceSearch(value)
+            }
+      }
     />
   )
 }

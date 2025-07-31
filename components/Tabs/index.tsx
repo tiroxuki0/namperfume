@@ -1,27 +1,29 @@
-import { TabPaneProps, Tabs as AntTabs, TabsProps } from 'antd'
-import type React from 'react'
-import { usePermissions } from '@root/hooks/usePermissions'
+import type React from "react"
 
-interface Tab extends Omit<TabPaneProps, 'tab'> {
+import { TabPaneProps, Tabs as AntTabs, TabsProps } from "antd"
+
+import { usePermissions } from "@root/hooks/usePermissions"
+
+interface Tab extends Omit<TabPaneProps, "tab"> {
   key: string
   label: React.ReactNode
   permission?: string | boolean
 }
 
-interface SkyTabsProps extends Omit<TabsProps, 'items'> {
+interface SkyTabsProps extends Omit<TabsProps, "items"> {
   items: Tab[]
 }
 
 const Tabs = (props: SkyTabsProps) => {
   const { items, ...rest } = props
-  const { checkPermission } = usePermissions('')
+  const { checkPermission } = usePermissions("")
 
-  const filteredItems = (items || []).filter((item) => {
-    if (item.permission && typeof item.permission === 'string') {
+  const filteredItems = (items || []).filter(item => {
+    if (item.permission && typeof item.permission === "string") {
       return checkPermission(item.permission)
     }
 
-    if (typeof item.permission === 'boolean') return item.permission
+    if (typeof item.permission === "boolean") return item.permission
 
     return true
   })

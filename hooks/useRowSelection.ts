@@ -1,9 +1,10 @@
-'use client'
+"use client"
 
-import React, { useEffect, useState } from 'react'
-import type { TableProps } from 'antd'
+import React, { useEffect, useState } from "react"
 
-type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection']
+import type { TableProps } from "antd"
+
+type TableRowSelection<T extends object = object> = TableProps<T>["rowSelection"]
 
 export function useRowSelection<T extends object = object>(status?: string) {
   const [selectedRows, setSelectedRows] = useState<T[]>([])
@@ -16,7 +17,7 @@ export function useRowSelection<T extends object = object>(status?: string) {
 
   const rowSelection: TableRowSelection<T> = {
     selectedRowKeys: selectedRowKeys,
-    onChange: onSelectChange,
+    onChange: onSelectChange
   }
 
   const onResetRows = () => {
@@ -25,7 +26,7 @@ export function useRowSelection<T extends object = object>(status?: string) {
   }
 
   useEffect(() => {
-    if (status === 'success') {
+    if (status === "success") {
       onResetRows()
     }
   }, [status])
@@ -33,6 +34,6 @@ export function useRowSelection<T extends object = object>(status?: string) {
   return {
     rowSelection,
     selectedRows,
-    onResetRows,
+    onResetRows
   }
 }

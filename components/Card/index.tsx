@@ -1,6 +1,8 @@
-import React from 'react'
-import { CardProps, Card } from 'antd'
-import { borderRadius } from '@root/design-tokens'
+import React from "react"
+
+import { CardProps, Card } from "antd"
+
+import { borderRadius } from "@root/design-tokens"
 
 const CardRadius = (props: CardProps) => {
   const { children, style, ...rest } = props
@@ -11,13 +13,13 @@ const CardRadius = (props: CardProps) => {
       style={{
         borderRadius: borderRadius,
         background: style?.backgroundColor,
-        ...style,
+        ...style
       }}
       styles={{
         body: {
-          ...rest.styles?.body,
+          ...rest.styles?.body
         },
-        ...rest.styles,
+        ...rest.styles
       }}
     >
       {children}

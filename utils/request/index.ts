@@ -1,12 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { decamelize } from "humps"
-import { apiEndpointUrl } from "../apiEndpoint"
-import { apiUrl, apiUrlQuery, formBody } from "../helper"
-import request from "./request"
+
 import { ObjectLiteral } from "@models/entities/ObjectLiteral"
 
-export function createResourceRequest({ apiPath, apiVersion, params }: { apiPath: string; apiVersion?: string | number; params: ObjectLiteral }) {
+import { apiEndpointUrl } from "../apiEndpoint"
+import { apiUrl, apiUrlQuery, formBody } from "../helper"
+
+import request from "./request"
+
+export function createResourceRequest({
+  apiPath,
+  apiVersion,
+  params
+}: {
+  apiPath: string
+  apiVersion?: string | number
+  params: ObjectLiteral
+}) {
   const apiBase = apiEndpointUrl(apiVersion)
   const endpoint = apiUrl(apiPath, apiBase)
 
@@ -27,7 +38,14 @@ type GetRequestType = {
   formattedOptions?: any
   headers?: any
 }
-export function getRequest({ apiPath, apiVersion, params = {}, isSSO = false, formattedOptions = {}, headers }: GetRequestType) {
+export function getRequest({
+  apiPath,
+  apiVersion,
+  params = {},
+  isSSO = false,
+  formattedOptions = {},
+  headers
+}: GetRequestType) {
   let apiBase = apiEndpointUrl(apiVersion)
 
   if (isSSO) {
@@ -53,7 +71,12 @@ type UpdateRequestType = {
   formattedOptions?: any
 }
 
-export function updateResourceRequest({ apiPath, apiVersion, params = {}, method = "PUT" }: UpdateRequestType) {
+export function updateResourceRequest({
+  apiPath,
+  apiVersion,
+  params = {},
+  method = "PUT"
+}: UpdateRequestType) {
   const apiBase = apiEndpointUrl(apiVersion)
   const endpoint = apiUrl(apiPath, apiBase)
 
@@ -134,7 +157,17 @@ export function uploadFileRequest({
   return request(endpoint, options)
 }
 
-export function downloadFileRequest({ apiPath, apiVersion, params, header }: { apiPath: string; apiVersion?: string | number; params: ObjectLiteral; header?: any }) {
+export function downloadFileRequest({
+  apiPath,
+  apiVersion,
+  params,
+  header
+}: {
+  apiPath: string
+  apiVersion?: string | number
+  params: ObjectLiteral
+  header?: any
+}) {
   const apiBase = apiEndpointUrl(apiVersion)
 
   const endpoint = apiUrlQuery({
@@ -151,7 +184,16 @@ export function downloadFileRequest({ apiPath, apiVersion, params, header }: { a
   )
 }
 
-export function patchResourceRequest({ apiPath, apiVersion, params }: { apiPath: string; apiVersion: string | number; params: ObjectLiteral; customArrayValue?: boolean }) {
+export function patchResourceRequest({
+  apiPath,
+  apiVersion,
+  params
+}: {
+  apiPath: string
+  apiVersion: string | number
+  params: ObjectLiteral
+  customArrayValue?: boolean
+}) {
   const apiBase = apiEndpointUrl(apiVersion)
   const endpoint = apiUrl(apiPath, apiBase)
 

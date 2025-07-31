@@ -6,15 +6,19 @@ export const DEFAULT_DATETIME_FORMAT = "MMM DD YYYY - HH:mm:ss"
 export const GLOBAL_ITEM_PAGE = 1
 export const GLOBAL_ITEM_PER_PAGE = 10
 
-export const REGEX_VALIDATE_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+export const REGEX_VALIDATE_EMAIL =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-export const REGEX_VALIDATE_DISPLAY_NAME = /^(?=.{2,})([a-zA-Z\xC0-\uFFFF]+(?:[ \-'][a-zA-Z\xC0-\uFFFF]+)*)(?: ([a-zA-Z\xC0-\uFFFF]+(?:[ \-'][a-zA-Z\xC0-\uFFFF]+)*))?$/
-export const REGEX_VALIDATE_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/
+export const REGEX_VALIDATE_DISPLAY_NAME =
+  /^(?=.{2,})([a-zA-Z\xC0-\uFFFF]+(?:[ \-'][a-zA-Z\xC0-\uFFFF]+)*)(?: ([a-zA-Z\xC0-\uFFFF]+(?:[ \-'][a-zA-Z\xC0-\uFFFF]+)*))?$/
+export const REGEX_VALIDATE_PASSWORD =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/
 
 export const REGEX_VALIDATE_USERNAME_FORMAT = /^[A-Za-z0-9](?:[A-Za-z0-9._-]{1,30}[A-Za-z0-9])$/
 
 export const REGEX_VALIDATE_ROLE_NAME_FORMAT = /^[A-Za-z0-9 ]{1,64}$/
-export const REGEX_VALIDATE_PHONE = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/
+export const REGEX_VALIDATE_PHONE =
+  /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/
 
 export const DATE_FORMAT = {
   FULL: "YYYY-MM-DD HH:mm:ss", // 2025-04-11 15:30:00

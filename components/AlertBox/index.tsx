@@ -1,14 +1,15 @@
 // components/AlertBox.tsx
+import React from "react"
+
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   ExclamationCircleOutlined,
-  InfoCircleOutlined,
-} from '@ant-design/icons'
-import { Alert } from 'antd'
-import React from 'react'
+  InfoCircleOutlined
+} from "@ant-design/icons"
+import { Alert } from "antd"
 
-export type AlertType = 'success' | 'info' | 'warning' | 'error'
+export type AlertType = "success" | "info" | "warning" | "error"
 
 interface AlertBoxProps {
   type?: AlertType
@@ -26,11 +27,11 @@ const defaultIcons: Record<AlertType, React.ReactNode> = {
   success: <CheckCircleOutlined />,
   info: <InfoCircleOutlined />,
   warning: <ExclamationCircleOutlined />,
-  error: <CloseCircleOutlined />,
+  error: <CloseCircleOutlined />
 }
 
 const AlertBox: React.FC<AlertBoxProps> = ({
-  type = 'info',
+  type = "info",
   message,
   showIcon = true,
   iconOverride,
@@ -38,18 +39,18 @@ const AlertBox: React.FC<AlertBoxProps> = ({
   className,
   banner = false,
   closable = false,
-  onClose,
+  onClose
 }) => {
   return (
     <Alert
-      type={type}
+      banner={banner}
+      className={className}
+      closable={closable}
+      icon={iconOverride ?? defaultIcons[type]}
       message={message}
       showIcon={showIcon}
-      icon={iconOverride ?? defaultIcons[type]}
       style={{ borderRadius: 8, ...style }}
-      className={className}
-      banner={banner}
-      closable={closable}
+      type={type}
       onClose={onClose}
     />
   )

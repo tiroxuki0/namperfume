@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { Tooltip } from 'antd'
-import { CopyOutlined, CheckOutlined } from '@ant-design/icons'
+import React, { useState } from "react"
+
+import { Tooltip } from "antd"
+import { CopyOutlined, CheckOutlined } from "@ant-design/icons"
 
 interface Copy {
   value?: string | undefined
@@ -17,15 +18,15 @@ function Copy({ value }: Copy) {
   }
 
   return (
-    <Tooltip title={isCopy ? 'Copied' : 'Copy'}>
+    <Tooltip title={isCopy ? "Copied" : "Copy"}>
       {isCopy ? (
         <CheckOutlined
-          style={{ cursor: 'pointer', color: '#52c41a', marginLeft: '5px', marginRight: '3px' }}
+          style={{ cursor: "pointer", color: "#52c41a", marginLeft: "5px", marginRight: "3px" }}
         />
       ) : (
         <CopyOutlined
+          style={{ cursor: "pointer", color: "#1d39c4", marginLeft: "5px", marginRight: "3px" }}
           onClick={handleCopy}
-          style={{ cursor: 'pointer', color: '#1d39c4', marginLeft: '5px', marginRight: '3px' }}
         />
       )}
     </Tooltip>

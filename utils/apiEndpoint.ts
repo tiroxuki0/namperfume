@@ -1,4 +1,3 @@
-import { create } from "lodash"
 import { env } from "next-runtime-env"
 
 const NEXT_PUBLIC_PROXY_PATH = env("NEXT_PUBLIC_PROXY_PATH")
@@ -6,7 +5,11 @@ const exposeUrl = env("NEXT_PUBLIC_API_URL")
 
 const apiRootUrl = (NEXT_PUBLIC_PROXY_PATH || "").split("/v1")[0]
 
-export const apiEndpointUrl = (version: string | number = "1", apiBase = apiRootUrl, isSSO = false) => {
+export const apiEndpointUrl = (
+  version: string | number = "1",
+  apiBase = apiRootUrl,
+  isSSO = false
+) => {
   return `${isSSO ? (exposeUrl || "").split("/v1")[0] : apiBase}/v${version}`
 }
 

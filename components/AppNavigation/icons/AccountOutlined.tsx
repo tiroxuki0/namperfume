@@ -1,14 +1,15 @@
-import { GetProps } from 'antd'
-import Icon from '@ant-design/icons'
-import React from 'react'
+import React from "react"
+
+import { GetProps } from "antd"
+import Icon from "@ant-design/icons"
 
 const AccountIconOutlined = () => {
   return (
     <svg
-      width="24"
+      fill="currentColor"
       height="24"
       viewBox="0 0 20 19"
-      fill="currentColor"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

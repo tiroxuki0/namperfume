@@ -1,8 +1,11 @@
-import Flex from '@components/Flex'
-import { Alert, Button, Space, Typography } from 'antd'
-import ModalDialog from '@components/ModalDialog'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import React from "react"
+
+import { Alert, Button, Space, Typography } from "antd"
+
+import { useTranslation } from "react-i18next"
+
+import Flex from "@components/Flex"
+import ModalDialog from "@components/ModalDialog"
 
 interface Props {
   onCancel: () => void
@@ -13,24 +16,24 @@ const DiscardPrompt = ({ onCancel, onDiscard }: Props) => {
 
   return (
     <ModalDialog
+      open
+      title={t("providersPage.create.modal.discard.title")}
       footer={[
         <Space key="new-theme-dialog">
           <Button data-testid="modal-discard-button-cancel" onClick={onCancel}>
-            {t('button.cancel')}
+            {t("button.cancel")}
           </Button>
-          <Button data-testid="modal-discard-button-discard" onClick={onDiscard} type="primary">
-            {t('button.discard')}
+          <Button data-testid="modal-discard-button-discard" type="primary" onClick={onDiscard}>
+            {t("button.discard")}
           </Button>
-        </Space>,
+        </Space>
       ]}
-      open
-      title={t('providersPage.create.modal.discard.title')}
       onCancel={onCancel}
     >
       <Flex vertical gap={12}>
-        <Alert type="warning" message={t('providersPage.create.modal.discard.warning')} showIcon />
+        <Alert showIcon message={t("providersPage.create.modal.discard.warning")} type="warning" />
 
-        <Typography.Text>{t('providersPage.create.modal.discard.areYouSure')}</Typography.Text>
+        <Typography.Text>{t("providersPage.create.modal.discard.areYouSure")}</Typography.Text>
       </Flex>
     </ModalDialog>
   )

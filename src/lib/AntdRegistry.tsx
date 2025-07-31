@@ -1,8 +1,15 @@
-'use client'
+"use client"
 
-import { createCache, extractStyle, StyleProvider } from '@ant-design/cssinjs'
-import type Entity from '@ant-design/cssinjs/es/Cache'
-import ConfigProvider from '@components/ConfigProvider'
+import React from "react"
+
+import { DM_Sans } from "next/font/google"
+import { useServerInsertedHTML } from "next/navigation"
+import { createCache, extractStyle, StyleProvider } from "@ant-design/cssinjs"
+import type Entity from "@ant-design/cssinjs/es/Cache"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { theme } from "antd"
+
 import {
   borderRadius,
   card,
@@ -10,24 +17,19 @@ import {
   colorPrimary,
   controlHeight,
   darkItemBgMnu,
-  darkItemSelectedBg,
-} from '@root/design-tokens'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { theme } from 'antd'
-import { DM_Sans } from 'next/font/google'
-import { useServerInsertedHTML } from 'next/navigation'
-import React from 'react'
+  darkItemSelectedBg
+} from "@root/design-tokens"
+import ConfigProvider from "@components/ConfigProvider"
 
 const dmSans = DM_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-dm-sans',
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-dm-sans"
 })
 
 const StyledComponentsRegistry = ({ children }: React.PropsWithChildren) => {
   const {
-    token: { colorBgLayout },
+    token: { colorBgLayout }
   } = theme.useToken()
 
   const queryClient = new QueryClient()
@@ -44,7 +46,7 @@ const StyledComponentsRegistry = ({ children }: React.PropsWithChildren) => {
       return
     }
     isServerInserted.current = true
-    return <style id="antd" dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }} />
+    return <style dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }} id="antd" />
   })
 
   //--------------------------------------------------------------------------> Render
@@ -62,7 +64,7 @@ const StyledComponentsRegistry = ({ children }: React.PropsWithChildren) => {
             colorLink: colorPrimary,
             colorFillTertiary: colorFillTertiary,
             controlItemBgHover: colorBgLayout,
-            controlItemBgActive: '#F0F5FF',
+            controlItemBgActive: "#F0F5FF"
           },
           components: {
             Menu: {
@@ -71,61 +73,61 @@ const StyledComponentsRegistry = ({ children }: React.PropsWithChildren) => {
               darkItemSelectedBg: darkItemSelectedBg,
               itemBorderRadius: 0,
               lineWidthFocus: 4,
-              itemPaddingInline: 40,
+              itemPaddingInline: 40
             },
             Button: {
               borderRadius: borderRadius,
               borderRadiusLG: borderRadius,
-              borderRadiusSM: borderRadius,
+              borderRadiusSM: borderRadius
             },
             Card: {
-              borderRadiusLG: card.borderRadius,
+              borderRadiusLG: card.borderRadius
             },
             Input: {
-              borderRadius: borderRadius,
+              borderRadius: borderRadius
             },
             Select: {
-              borderRadius: borderRadius,
+              borderRadius: borderRadius
             },
             DatePicker: {
-              borderRadius: borderRadius,
+              borderRadius: borderRadius
             },
             Alert: {
               borderRadiusLG: borderRadius,
               colorInfo: colorPrimary,
-              colorInfoBorder: '#ADC6FF',
+              colorInfoBorder: "#ADC6FF"
             },
             Tag: {
-              borderRadiusSM: 8,
+              borderRadiusSM: 8
             },
             Tooltip: {
-              borderRadius: 12,
+              borderRadius: 12
             },
             Descriptions: {
               titleMarginBottom: 4,
-              itemPaddingBottom: 4,
+              itemPaddingBottom: 4
             },
             Table: {
-              rowExpandedBg: 'none',
+              rowExpandedBg: "none"
             },
             Form: {
-              itemMarginBottom: 8,
+              itemMarginBottom: 8
             },
             Segmented: {
               borderRadius: borderRadius,
-              borderRadiusSM: borderRadius,
+              borderRadiusSM: borderRadius
             },
             Steps: {
-              iconSizeSM: 32,
+              iconSizeSM: 32
             },
             InputNumber: {
               borderRadius: 12,
-              borderRadiusSM: 12,
+              borderRadiusSM: 12
             },
             Skeleton: {
-              controlHeightSM: 22,
-            },
-          },
+              controlHeightSM: 22
+            }
+          }
         }}
       >
         <StyleProvider cache={cache}>{children}</StyleProvider>

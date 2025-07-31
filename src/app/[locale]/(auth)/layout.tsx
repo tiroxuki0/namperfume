@@ -1,12 +1,14 @@
+import React from "react"
+
 import dynamic from "next/dynamic"
 import { cookies } from "next/headers"
-import React from "react"
 import getConfig from "next/config"
-import { env } from "next-runtime-env"
-import { getSSOUrl } from "@utils/request/request"
 import { redirect } from "next/navigation"
+import { env } from "next-runtime-env"
 
-const metaTitle = env("NEXT_PUBLIC_META_TITLE") || "Platform Manager"
+import { getSSOUrl } from "@utils/request/request"
+
+const metaTitle = env("NEXT_PUBLIC_META_TITLE") || "NextApp"
 
 const { appEnv, cookieName } = getConfig().publicRuntimeConfig
 

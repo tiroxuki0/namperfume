@@ -1,4 +1,4 @@
-import { Tag as AntdTag, TagProps } from 'antd'
+import { Tag as AntdTag, TagProps } from "antd"
 
 const Tag = (props: TagProps) => {
   const { children, ...rest } = props

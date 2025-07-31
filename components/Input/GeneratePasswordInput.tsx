@@ -1,24 +1,26 @@
-import useCopyToClipboard from '@root/hooks/useCopyToClipboard'
-import { Trans, useTranslation } from 'react-i18next'
-import React, { useState } from 'react'
-import { Card, Space, Tooltip } from 'antd'
-import { InputPassword } from '@components/Input/index'
-import Button from '@components/Button'
-import { Typography } from '@components/Typography'
-import { RuleObject, StoreValue } from 'rc-field-form/es/interface'
-import { InfoCircleOutlined } from '@ant-design/icons'
-import { usePasswordPolicy } from '@root/hooks/usePasswordPolicy'
+import React, { useState } from "react"
+
+import { Trans, useTranslation } from "react-i18next"
+import { Card, Space, Tooltip } from "antd"
+import { RuleObject, StoreValue } from "rc-field-form/es/interface"
+import { InfoCircleOutlined } from "@ant-design/icons"
+
+import useCopyToClipboard from "@root/hooks/useCopyToClipboard"
+import { InputPassword } from "@components/Input/index"
+import Button from "@components/Button"
+import { Typography } from "@components/Typography"
+import { usePasswordPolicy } from "@root/hooks/usePasswordPolicy"
 
 export const useValidatePassword = () => {
   const { t } = useTranslation()
 
   const { maxPasswordLength, minPasswordLength, passwordRegex } = usePasswordPolicy()
 
-  const regex = new RegExp(passwordRegex || '')
+  const regex = new RegExp(passwordRegex || "")
 
   function generatePassword() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#%&*'
-    let password = ''
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#%&*"
+    let password = ""
 
     // Retry logic to ensure password matches the regex
     while (true) {
@@ -28,7 +30,7 @@ export const useValidatePassword = () => {
       password = Array.from(
         { length },
         () => characters[Math.floor(Math.random() * characters.length)]
-      ).join('')
+      ).join("")
 
       // Validate the password against the regex
       if (regex.test(password)) break
@@ -44,31 +46,31 @@ export const useValidatePassword = () => {
         message: (
           <Trans
             i18nKey="error.wrongPassword"
-            values={{ policy: 'password complexity requirements' }}
+            values={{ policy: "password complexity requirements" }}
             components={{
-              span: <span />,
+              span: <span />
             }}
           />
-        ),
+        )
       }
     }
 
     if (regex.test(value) && minPasswordLength && value.length < minPasswordLength) {
       return {
         result: false,
-        message: t('error.minPassword', { password: minPasswordLength }),
+        message: t("error.minPassword", { password: minPasswordLength })
       }
     }
 
     if (regex.test(value) && maxPasswordLength && value.length > maxPasswordLength) {
       return {
         result: false,
-        message: t('error.maxPassword', { password: maxPasswordLength }),
+        message: t("error.maxPassword", { password: maxPasswordLength })
       }
     }
     return {
       result: regex.test(value),
-      message: '',
+      message: ""
     }
   }
 
@@ -76,7 +78,7 @@ export const useValidatePassword = () => {
     ({ require, label }: { require: boolean; label?: string }) =>
     (_: RuleObject, value: StoreValue) => {
       if (require && !value) {
-        return Promise.reject(t('error.requiredInput', { field: label }))
+        return Promise.reject(t("error.requiredInput", { field: label }))
       }
       const { result, message } = validatePassword(value)
 
@@ -88,7 +90,7 @@ export const useValidatePassword = () => {
 
   return {
     passwordValidator,
-    generatePassword,
+    generatePassword
   }
 }
 
@@ -97,42 +99,42 @@ export const PasswordSuggestion = () => {
 
   const { maxPasswordLength, minPasswordLength, passwordRegex } = usePasswordPolicy()
 
-  const pwRegex = (passwordRegex || '').split(/[()]/)
-  let stringPassedRegex = (pwRegex || '').filter((regx) => regx.startsWith('?=.*'))
+  const pwRegex = (passwordRegex || "").split(/[()]/)
+  let stringPassedRegex = (pwRegex || "").filter(regx => regx.startsWith("?=.*"))
 
   const getPlainText = (st: string) =>
-    st.replaceAll('[', '').replaceAll(']', '').split('-').join('')
+    st.replaceAll("[", "").replaceAll("]", "").split("-").join("")
   const isNumber = (str: string) => /^[0-9]+$/.test(str)
   const isUppercase = (str: string) => /^[A-Z]+$/.test(str)
   const isLowercase = (str: string) => /^[a-z]+$/.test(str)
   const isSpecialCharacter = (str: string) => /[^a-zA-Z0-9\s]/.test(str)
 
-  stringPassedRegex = (stringPassedRegex || '')
-    .map((st) => st.replaceAll('\\d', '[0-9]'))
-    .map((st) => st.replaceAll('?=.*', ''))
+  stringPassedRegex = (stringPassedRegex || "")
+    .map(st => st.replaceAll("\\d", "[0-9]"))
+    .map(st => st.replaceAll("?=.*", ""))
 
-  stringPassedRegex = (stringPassedRegex || '').map((str) => {
+  stringPassedRegex = (stringPassedRegex || "").map(str => {
     if (isNumber(getPlainText(str))) {
-      return t('error.passwordPolicy.rangeNumber', {
-        message: getPlainText(str).split('').join('-'),
+      return t("error.passwordPolicy.rangeNumber", {
+        message: getPlainText(str).split("").join("-")
       })
     }
 
     if (isLowercase(getPlainText(str))) {
-      return t('error.passwordPolicy.rangeLowercase', {
-        message: getPlainText(str).split('').join('-'),
+      return t("error.passwordPolicy.rangeLowercase", {
+        message: getPlainText(str).split("").join("-")
       })
     }
 
     if (isUppercase(getPlainText(str))) {
-      return t('error.passwordPolicy.rangeUppercase', {
-        message: getPlainText(str).split('').join('-'),
+      return t("error.passwordPolicy.rangeUppercase", {
+        message: getPlainText(str).split("").join("-")
       })
     }
 
     if (isSpecialCharacter(getPlainText(str))) {
-      return t('error.passwordPolicy.specialCharacter', {
-        message: getPlainText(str),
+      return t("error.passwordPolicy.specialCharacter", {
+        message: getPlainText(str)
       })
     }
 
@@ -141,36 +143,36 @@ export const PasswordSuggestion = () => {
 
   return (
     <Tooltip
+      color="#fff"
       overlayInnerStyle={{
         minWidth: 360,
-        background: '#fff',
-        padding: 0,
+        background: "#fff",
+        padding: 0
       }}
-      color="#fff"
       title={
-        <Card size="small" title={t('error.passwordPolicy.title')}>
+        <Card size="small" title={t("error.passwordPolicy.title")}>
           <Trans
             i18nKey="error.passwordPolicy.between"
-            values={{
-              message: t('error.passwordPolicy.minAndMax', {
-                min: minPasswordLength,
-                max: maxPasswordLength,
-              }),
-            }}
             components={{
-              strong: <strong />,
+              strong: <strong />
+            }}
+            values={{
+              message: t("error.passwordPolicy.minAndMax", {
+                min: minPasswordLength,
+                max: maxPasswordLength
+              })
             }}
           />
-          {(stringPassedRegex || []).map((str) => {
+          {(stringPassedRegex || []).map(str => {
             return (
               <div key={str}>
                 <Trans
                   i18nKey="error.passwordPolicy.atLeast"
-                  values={{
-                    message: str,
-                  }}
                   components={{
-                    strong: <strong />,
+                    strong: <strong />
+                  }}
+                  values={{
+                    message: str
                   }}
                 />
               </div>
@@ -186,7 +188,7 @@ export const PasswordSuggestion = () => {
 
 export const GeneratePasswordInput = ({
   value,
-  onChange,
+  onChange
 }: {
   value?: string | number
   onChange?: (value: string | number) => void
@@ -197,37 +199,37 @@ export const GeneratePasswordInput = ({
 
   const { generatePassword } = useValidatePassword()
 
-  const [password, setPassword] = useState<string>('')
+  const [password, setPassword] = useState<string>("")
 
   //--------------------------------------------------------------------------> Render
 
   return (
-    <Space.Compact className="test-password" size="middle" style={{ width: '100%' }}>
+    <Space.Compact className="test-password" size="middle" style={{ width: "100%" }}>
       <InputPassword
         autoComplete="new-password"
-        value={value}
         data-testid="common-input-password"
-        onChange={(ev) => onChange?.(ev.target.value)}
+        value={value}
+        onChange={ev => onChange?.(ev.target.value)}
       />
       <Button
+        data-testid="generate-button-password"
         onClick={() => {
           const password = generatePassword()
           setPassword(password)
           onChange?.(password)
         }}
-        data-testid="generate-button-password"
       >
-        {t('usersPage.actions.passwordGenerate')}
+        {t("usersPage.actions.passwordGenerate")}
       </Button>
 
       <Button
         data-testid="generate-button-copy-password"
-        onClick={() => copy(password)}
         icon={
           <div style={{ marginTop: 8 }}>
             <Typography.Text copyable={{ text: password }} />
           </div>
         }
+        onClick={() => copy(password)}
       />
     </Space.Compact>
   )

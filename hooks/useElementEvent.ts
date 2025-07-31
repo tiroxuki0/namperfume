@@ -1,8 +1,8 @@
-import { RefObject, useEffect, useRef } from 'react'
+import { RefObject, useEffect, useRef } from "react"
 
 function useElementEvent<
   K extends keyof HTMLElementEventMap,
-  T extends HTMLElement = HTMLDivElement,
+  T extends HTMLElement = HTMLDivElement
 >(
   eventName: K,
   handler: (event: HTMLElementEventMap[K]) => void,
@@ -30,7 +30,7 @@ function useElementEvent<EvenMap extends keyof HTMLElementEventMap, T extends HT
     if (!(targetElement && targetElement.addEventListener)) return
 
     // Create event listener that calls handler function stored in ref
-    const listener: typeof handler = (event) => savedHandler.current(event)
+    const listener: typeof handler = event => savedHandler.current(event)
 
     targetElement.addEventListener(eventName, listener, options)
 

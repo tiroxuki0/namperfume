@@ -1,7 +1,7 @@
-import { createConsumer } from '@rails/actioncable'
-import { env } from 'next-runtime-env'
+import { createConsumer } from "@rails/actioncable"
+import { env } from "next-runtime-env"
 
-const socketURL = env('NEXT_PUBLIC_WEB_SOCKET') || ''
+const socketURL = env("NEXT_PUBLIC_WEB_SOCKET") || ""
 
 let cable: any
 

@@ -13,5 +13,5 @@ export const initialMeta: Meta = {
   perPage: 10,
   prevPage: null,
   total: 0,
-  totalPages: 0,
+  totalPages: 0
 }

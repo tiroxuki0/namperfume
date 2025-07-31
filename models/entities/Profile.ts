@@ -8,8 +8,8 @@ export type UserProfile = {
   lockedAt: string | null
   createdAt: string
   updatedAt: string
-  forceResetPassword: 'disabled' | 'enabled'
-  status: 'enabled' | 'disabled'
+  forceResetPassword: "disabled" | "enabled"
+  status: "enabled" | "disabled"
   logUrl?: string
 }
 

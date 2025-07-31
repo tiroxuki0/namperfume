@@ -1,11 +1,11 @@
-import { create } from 'zustand'
+import { create } from "zustand"
 
 type Store = {
   unreadNotificationCount: number | null
   setUnreadNotificationCount: (value: number) => void
 }
 
-export const useNotificationsStore = create<Store>()((set) => ({
+export const useNotificationsStore = create<Store>()(set => ({
   unreadNotificationCount: null,
-  setUnreadNotificationCount: (count) => set(() => ({ unreadNotificationCount: count })),
+  setUnreadNotificationCount: count => set(() => ({ unreadNotificationCount: count }))
 }))

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react"
 
 type CopyValue = string | null
 type CopyFunction = (text: string) => Promise<boolean>
@@ -25,6 +25,6 @@ export default function useCopyToClipboard(): {
 
   return {
     copiedValue,
-    copy,
+    copy
   }
 }

@@ -1,18 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import getConfig from 'next/config'
+import { NextRequest, NextResponse } from "next/server"
+import { cookies } from "next/headers"
+import getConfig from "next/config"
 
 const { cookieName, sessionIndex, pmUpstreamUrl } = getConfig().publicRuntimeConfig
 
 export async function POST(request: NextRequest) {
-  const contentType = request.headers.get('content-type')
+  const contentType = request.headers.get("content-type")
 
   const authToken = cookies().get(cookieName)?.value
   const sessionIdx = cookies().get(sessionIndex)?.value
 
-  console.log('---trigger---logout_idp---', authToken, sessionIdx)
+  console.log("---trigger---logout_idp---", authToken, sessionIdx)
 
-  if (contentType === 'application/x-www-form-urlencoded') {
+  if (contentType === "application/x-www-form-urlencoded") {
     // Parse the form data from the request body
     const formData = await request.formData()
 
@@ -28,20 +28,20 @@ export async function POST(request: NextRequest) {
       formData,
       authToken,
       targetURL,
-      ['body-request']: JSON.stringify(formBody),
-      sessionIdx,
+      ["body-request"]: JSON.stringify(formBody),
+      sessionIdx
     })
 
-    console.log('Received form data:', JSON.stringify(formBody))
-    console.log('RelayState', formBody?.RelayState)
+    console.log("Received form data:", JSON.stringify(formBody))
+    console.log("RelayState", formBody?.RelayState)
 
     const idpLogout = fetch(`${targetURL}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`
       },
-      body: JSON.stringify(formBody),
+      body: JSON.stringify(formBody)
     })
 
     const logout = await idpLogout
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     cookies().delete(sessionIndex)
 
     if (logout.status === 200) {
-      console.log('---logout-with-targetURL---', targetURL, logout)
+      console.log("---logout-with-targetURL---", targetURL, logout)
 
       const data = await logout.json()
 
@@ -60,9 +60,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.redirect(data.sso_url, 302)
       }
 
-      const host = request.headers.get('host')
+      const host = request.headers.get("host")
       // Dynamically determine protocol (https in production, http otherwise)
-      const protocol = (host || '').includes('localhost') ? 'http' : 'https'
+      const protocol = (host || "").includes("localhost") ? "http" : "https"
 
       // Construct the full URL using protocol, host, and pathname
       const fullUrl = `${protocol}://${host}`

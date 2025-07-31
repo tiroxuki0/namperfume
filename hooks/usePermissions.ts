@@ -1,5 +1,6 @@
-import { get } from 'lodash'
-import { useUserSession } from './useUserSession' // Assuming the above hook
+import { get } from "lodash"
+
+import { useUserSession } from "./useUserSession" // Assuming the above hook
 
 export function usePermissions(requiredPermission?: string | string[]) {
   const { permissions, isLoading: isUserLoading, status } = useUserSession()
@@ -8,12 +9,12 @@ export function usePermissions(requiredPermission?: string | string[]) {
     if (
       !requiredPermission ||
       (Array.isArray(requiredPermission) && requiredPermission.length === 0) ||
-      requiredPermission === ''
+      requiredPermission === ""
     ) {
       return true
     }
     let hasPermission = false
-    if (typeof requiredPermission === 'string') {
+    if (typeof requiredPermission === "string") {
       hasPermission = !!get(permissions, requiredPermission)
     } else if (Array.isArray(requiredPermission)) {
       hasPermission = (requiredPermission as string[]).some((pm: string) => !!get(permissions, pm))
@@ -29,16 +30,16 @@ export function usePermissions(requiredPermission?: string | string[]) {
   if (
     !requiredPermission ||
     (Array.isArray(requiredPermission) && requiredPermission.length === 0) ||
-    requiredPermission === ''
+    requiredPermission === ""
   ) {
     return { isAllowed: true, isLoading: false, checkPermission, status }
   }
 
   let hasPermission = false
-  if (typeof requiredPermission === 'string') {
+  if (typeof requiredPermission === "string") {
     hasPermission = !!get(permissions, requiredPermission)
   } else if (Array.isArray(requiredPermission)) {
-    hasPermission = requiredPermission.some((pm) => !!get(permissions, pm))
+    hasPermission = requiredPermission.some(pm => !!get(permissions, pm))
   }
 
   return { isAllowed: hasPermission, isLoading: false, checkPermission, status }

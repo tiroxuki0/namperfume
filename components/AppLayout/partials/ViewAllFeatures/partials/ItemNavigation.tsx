@@ -1,16 +1,17 @@
-import { Menu } from '@models/entities/Menu'
-import { Col, Row, theme } from 'antd'
-import CardRadius from '@components/Card'
-import Flex from '@components/Flex'
-import { Typography } from '@components/Typography'
-import Button from '@components/Button'
-import { ExportOutlined } from '@ant-design/icons'
-import { useRecursiveMenuNavigation } from '@root/hooks/useRecursiveMenuNavigation'
+import { Col, Row, theme } from "antd"
+import { ExportOutlined } from "@ant-design/icons"
+
+import { Menu } from "@models/entities/Menu"
+import CardRadius from "@components/Card"
+import Flex from "@components/Flex"
+import { Typography } from "@components/Typography"
+import Button from "@components/Button"
+import { useRecursiveMenuNavigation } from "@root/hooks/useRecursiveMenuNavigation"
 
 const ItemNavigation = ({
   items,
   onChange,
-  selectedId,
+  selectedId
 }: {
   items: Menu[] | undefined
   onChange?: (path: string) => void
@@ -22,22 +23,22 @@ const ItemNavigation = ({
 
   return (
     <Row gutter={[24, 24]}>
-      {(items || []).map((item) => {
+      {(items || []).map(item => {
         const allKeys = getAllKeys([item])
         const isMatched = allKeys.includes(selectedId as string)
         return (
-          <Col span={24} key={item?.id}>
+          <Col key={item?.id} span={24}>
             <CardRadius
               style={{
                 ...(isMatched && {
                   border: `1px solid ${token.colorPrimary}`,
-                  background: token.colorFillTertiary,
-                }),
+                  background: token.colorFillTertiary
+                })
               }}
               styles={{
                 body: {
-                  padding: 16,
-                },
+                  padding: 16
+                }
               }}
             >
               <Flex vertical gap={12}>
@@ -47,21 +48,21 @@ const ItemNavigation = ({
                       style={{
                         fontWeight: 500,
                         fontSize: 16,
-                        margin: 0,
+                        margin: 0
                       }}
                     >
                       {item?.name}
                     </Typography.Text>
                   ) : (
                     <Typography.Link
-                      onClick={(ev) => {
-                        ev.preventDefault()
-                        onChange?.(item?.path || '')
-                      }}
                       style={{
                         fontWeight: 500,
                         fontSize: 16,
-                        margin: 0,
+                        margin: 0
+                      }}
+                      onClick={ev => {
+                        ev.preventDefault()
+                        onChange?.(item?.path || "")
                       }}
                     >
                       {item?.name}
@@ -70,15 +71,15 @@ const ItemNavigation = ({
 
                   {item?.children && (
                     <div>
-                      {item?.children?.map((t) => {
+                      {item?.children?.map(t => {
                         return (
                           <ButtonLink
-                            onClick={(path: string) => {
-                              onChange?.(path)
-                            }}
                             key={t?.id}
                             menu={t}
                             selectedId={selectedId}
+                            onClick={(path: string) => {
+                              onChange?.(path)
+                            }}
                           />
                         )
                       })}
@@ -97,7 +98,7 @@ const ItemNavigation = ({
 const ButtonLink = ({
   menu,
   onClick,
-  selectedId,
+  selectedId
 }: {
   selectedId?: string
   menu: Menu
@@ -106,8 +107,8 @@ const ButtonLink = ({
   if (menu?.children?.length > 0) {
     return (
       <>
-        {menu?.children?.map((t) => {
-          return <ButtonLink selectedId={selectedId} onClick={onClick} key={t?.id} menu={t} />
+        {menu?.children?.map(t => {
+          return <ButtonLink key={t?.id} menu={t} selectedId={selectedId} onClick={onClick} />
         })}
       </>
     )
@@ -115,13 +116,13 @@ const ButtonLink = ({
 
   return (
     <Button
-      size={'small'}
-      onClick={() => onClick?.(menu?.path || '')}
       icon={<ExportOutlined />}
+      size={"small"}
       type="link"
       style={{
-        textDecoration: selectedId === menu?.path ? 'underline' : '',
+        textDecoration: selectedId === menu?.path ? "underline" : ""
       }}
+      onClick={() => onClick?.(menu?.path || "")}
     >
       {menu?.name}
     </Button>

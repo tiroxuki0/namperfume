@@ -1,3 +1,7 @@
+import { useState } from "react"
+
+import Image from "next/image"
+import { useRouter } from "next/navigation"
 import {
   AppstoreOutlined,
   BellOutlined,
@@ -5,6 +9,11 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined
 } from "@ant-design/icons"
+import { Badge, Flex, Space, Spin, theme, Typography } from "antd"
+import { Header } from "antd/es/layout/layout"
+import { ItemType } from "antd/es/menu/interface"
+import { env } from "next-runtime-env"
+
 import ViewAllFeatures from "@components/AppLayout/partials/ViewAllFeatures"
 import Button from "@components/Button"
 import Divider from "@components/Divider"
@@ -13,19 +22,14 @@ import { useGetLogo } from "@root/queries/useGetLogo"
 import { useGetProfiles } from "@root/queries/useGetProfiles"
 import { useNotificationsStore } from "@root/stores/notification/store"
 import ROUTE from "@utils/pageRoutes"
-import { Badge, Flex, Space, Spin, theme, Typography } from "antd"
-import { Header } from "antd/es/layout/layout"
-import { ItemType } from "antd/es/menu/interface"
-import { env } from "next-runtime-env"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+
 import UserAvatar from "../UserAvatar"
+
 import styles from "./style.module.css"
 
 // const docsURL = env('NEXT_PUBLIC_DOCS_URL') || ''
 
-const metaTitle = env("NEXT_PUBLIC_META_TITLE") || "Nextjs App"
+const metaTitle = env("NEXT_PUBLIC_META_TITLE") || "NextApp"
 
 type BulkActionType = "notify" | "view"
 
@@ -83,7 +87,7 @@ const AppHeader = ({
         borderBottom: `1px ${lineType} ${colorBorderSecondary}`
       }}
     >
-      <Flex gap={12} align="center">
+      <Flex align="center" gap={12}>
         {menuLabel && !collapsed && (
           <Typography.Text
             style={{
@@ -99,56 +103,66 @@ const AppHeader = ({
           </Typography.Text>
         )}
         <Button
-          type="text"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={onChange}
+          type="text"
           style={{
             fontSize: "16px",
             color: colorBgContainer
           }}
+          onClick={onChange}
         />
 
-        <Divider className={styles.expandDivider} type="vertical" style={{ background: rest?.Menu?.darkItemSelectedBg }} />
+        <Divider
+          className={styles.expandDivider}
+          style={{ background: rest?.Menu?.darkItemSelectedBg }}
+          type="vertical"
+        />
 
         <Spin spinning={isFetching}>
           {!!logo?.url && (
             <Image
-              width={80}
+              alt="logo"
+              className={styles.avatar}
               height={80}
               src={logo?.url || ""}
-              alt="logo"
-              onClick={() => router.push(ROUTE.HOME)}
-              className={styles.avatar}
+              width={80}
               style={{
                 display: status === "success" ? "block" : "none"
               }}
+              onClick={() => router.push(ROUTE.HOME)}
             />
           )}
         </Spin>
 
-        <Divider type="vertical" style={{ background: rest?.Menu?.darkItemSelectedBg }} />
+        <Divider style={{ background: rest?.Menu?.darkItemSelectedBg }} type="vertical" />
 
-        {width > 900 && <Typography.Text style={{ color: colorBgContainer, margin: 0, fontWeight: 500, fontSize: 16 }}>{metaTitle}</Typography.Text>}
+        {width > 900 && (
+          <Typography.Text
+            style={{ color: colorBgContainer, margin: 0, fontWeight: 500, fontSize: 16 }}
+          >
+            {metaTitle}
+          </Typography.Text>
+        )}
 
         <Button
-          size="small"
           icon={<AppstoreOutlined />}
-          onClick={() => onOpen(BulkActionTypes.VIEW)}
+          size="small"
           style={{
             background: rest?.Menu?.darkItemSelectedBg,
             border: `1px solid ${rest?.Menu?.darkItemSelectedBg}`,
             color: colorBgContainer
           }}
+          onClick={() => onOpen(BulkActionTypes.VIEW)}
         >
           {width > 800 && (
             <Space>
               All features
-              <Image src="/images/customArrowDown.svg" alt="svg" width={8} height={8} />
+              <Image alt="svg" height={8} src="/images/customArrowDown.svg" width={8} />
             </Space>
           )}
         </Button>
       </Flex>
-      <Space size="middle" align="center" className={styles.item}>
+      <Space align="center" className={styles.item} size="middle">
         {/* <FileUnknownOutlined onClick={handleDocsClick} style={{ color: colorBgContainer }} /> */}
         {showNotification && (
           <Badge
@@ -160,11 +174,16 @@ const AppHeader = ({
               }
             }}
           >
-            <BellOutlined onClick={() => onOpen(BulkActionTypes.NOTIFY)} style={{ fontSize: 16, color: colorBgContainer }} />
+            <BellOutlined
+              style={{ fontSize: 16, color: colorBgContainer }}
+              onClick={() => onOpen(BulkActionTypes.NOTIFY)}
+            />
           </Badge>
         )}
 
-        {showAvatar && <Divider type="vertical" style={{ background: rest?.Menu?.darkItemSelectedBg }} />}
+        {showAvatar && (
+          <Divider style={{ background: rest?.Menu?.darkItemSelectedBg }} type="vertical" />
+        )}
 
         {showAvatar && (
           <UserAvatar

@@ -1,5 +1,6 @@
-import { camelizeKeys } from 'humps'
-import { safeObj } from '../helper'
+import { camelizeKeys } from "humps"
+
+import { safeObj } from "../helper"
 
 /**
  * Parses the JSON returned by a network request
@@ -33,22 +34,22 @@ export function checkStatus(response: any) {
   }
 
   if (response.status === 403) {
-    const error = new Error('Forbidden') as ErrorWithStatusCode
+    const error = new Error("Forbidden") as ErrorWithStatusCode
     error.statusCode = 403
     return Promise.reject(error)
   }
 
   if (response.status === 409) {
-    const ssoUrl = response.headers.get('Content-Location')
+    const ssoUrl = response.headers.get("Content-Location")
     if (ssoUrl) {
       window.location.replace(ssoUrl)
       return
     }
-    const error = new Error('Unauthorized')
+    const error = new Error("Unauthorized")
     const objReturn = {
       errorCode: 401,
       statusCode: 401,
-      statusText: 'Unauthorized! Redirecting to login page ...',
+      statusText: "Unauthorized! Redirecting to login page ..."
     }
     return Promise.reject(Object.assign(error, objReturn))
   }
@@ -61,8 +62,8 @@ export function checkStatus(response: any) {
       statusText: json.message,
       errors: json.errors,
       recordErrors: camelizeKeys(json.record_errors),
-      baseErrors: camelizeKeys(safeObj(json, 'base_error')),
-      record: camelizeResponseKeys(json),
+      baseErrors: camelizeKeys(safeObj(json, "base_error")),
+      record: camelizeResponseKeys(json)
     }
 
     if (json.is_not_confirm) {

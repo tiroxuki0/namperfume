@@ -1,3 +1,26 @@
+import type { GetProp, UploadProps } from "antd"
+import { decamelizeKeys } from "humps"
+import {
+  cloneDeep,
+  get,
+  has,
+  isArray,
+  isFunction,
+  isNaN,
+  isNil,
+  isPlainObject,
+  lowerCase,
+  mapKeys,
+  mapValues,
+  omitBy,
+  snakeCase,
+  startCase
+} from "lodash"
+import moment from "moment"
+import getConfig from "next/config"
+import qs from "qs"
+import dayjs, { ManipulateType } from "dayjs"
+
 import {
   DEFAULT_DATETIME_FORMAT,
   REGEX_HTTP_HTTPS_URL,
@@ -13,13 +36,6 @@ import {
   REGEX_WEBSOCKET_URL,
   REGEX_HOST_PATH
 } from "@root/constant"
-import type { GetProp, UploadProps } from "antd"
-import { decamelizeKeys } from "humps"
-import { cloneDeep, get, has, isArray, isFunction, isNaN, isNil, isPlainObject, lowerCase, mapKeys, mapValues, omitBy, snakeCase, startCase } from "lodash"
-import moment from "moment"
-import getConfig from "next/config"
-import qs from "qs"
-import dayjs, { ManipulateType } from "dayjs"
 import { ObjectLiteral } from "@models/entities/ObjectLiteral"
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0]
@@ -30,10 +46,14 @@ export function safeObj(obj: any, method: string, emptyValue: string | number | 
 }
 
 export function convertParamsToQueryString(params: ObjectLiteral, options = {}) {
-  return qs.stringify(has(params, "transformKey") && params.transformKey === false ? params : decamelizeKeys(params), { skipNulls: true, ...options })
+  return qs.stringify(
+    has(params, "transformKey") && params.transformKey === false ? params : decamelizeKeys(params),
+    { skipNulls: true, ...options }
+  )
 }
 
-export const apiUrl = (path: string, baseApi = getConfig().publicRuntimeConfig.apiURL) => `${baseApi}${path}`
+export const apiUrl = (path: string, baseApi = getConfig().publicRuntimeConfig.apiURL) =>
+  `${baseApi}${path}`
 
 export const apiUrlQuery = (options: any = {}) => {
   const { apiPath, apiBase, params, formattedOptions } = options
@@ -175,17 +195,27 @@ export const beingProcessed = (status?: string) => {
   return textType(status || "") === "processing"
 }
 
-export const isValidString = (value: any) => value !== undefined && value !== null && String(value).trim() !== "" && String(value) !== ""
+export const isValidString = (value: any) =>
+  value !== undefined && value !== null && String(value).trim() !== "" && String(value) !== ""
 
-export const snakeCaseToTitleCase = (text: string | undefined | null, defaultValue = "-"): string => {
+export const snakeCaseToTitleCase = (
+  text: string | undefined | null,
+  defaultValue = "-"
+): string => {
   if (isNil(text) || !isValidString(text) || text === defaultValue) {
     return defaultValue
   }
   return startCase(String(text).replaceAll("_", " "))
 }
 
-export function toLocalTime(time?: string | Date | number, escaped = null, format = DEFAULT_DATETIME_FORMAT, defaultValue = "-") {
-  if (!isValidString(time) || time === defaultValue || (typeof time === "number" && isNaN(time))) return defaultValue
+export function toLocalTime(
+  time?: string | Date | number,
+  escaped = null,
+  format = DEFAULT_DATETIME_FORMAT,
+  defaultValue = "-"
+) {
+  if (!isValidString(time) || time === defaultValue || (typeof time === "number" && isNaN(time)))
+    return defaultValue
   let str
   if (time) {
     if (typeof time === "number") {
@@ -245,9 +275,12 @@ export function generatePassword(length = 12) {
 
   // Ensure the password contains at least one character from each set
   const ensureCharacterSet = (set: string) => {
-    if (!password.split("").some((char) => set.includes(char))) {
+    if (!password.split("").some(char => set.includes(char))) {
       const replaceIndex = getSecureRandomNumber(length)
-      password = password.substring(0, replaceIndex) + getSecureRandomCharacter(set) + password.substring(replaceIndex + 1)
+      password =
+        password.substring(0, replaceIndex) +
+        getSecureRandomCharacter(set) +
+        password.substring(replaceIndex + 1)
     }
   }
 
@@ -307,13 +340,26 @@ export const annotation = (label?: string, notation?: string, withParen: boolean
   return `${label} ${!!notation ? (withParen ? `(${notation})` : notation) : ""}`
 }
 
-export const textWithUnit = (value: string | number | null | undefined, unit: string, format: string = "%v%u", defaultValue: string = "-") => {
-  if (value === null || value === undefined || value === "" || isNaN(value) || value === defaultValue) return defaultValue
+export const textWithUnit = (
+  value: string | number | null | undefined,
+  unit: string,
+  format: string = "%v%u",
+  defaultValue: string = "-"
+) => {
+  if (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    isNaN(value) ||
+    value === defaultValue
+  )
+    return defaultValue
 
   return format.replace("%v", `${value}`).replace("%u", unit)
 }
 
-export const isNotWholeNumber = (value: number | string | null) => value === null || isNaN(+value) || !Number.isInteger(+value)
+export const isNotWholeNumber = (value: number | string | null) =>
+  value === null || isNaN(+value) || !Number.isInteger(+value)
 
 export function convertParamsToQueryStringWithArray(params: any) {
   return convertParamsToQueryString(params, {
@@ -340,7 +386,7 @@ export const getBase64 = (file: FileType): Promise<string> =>
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => resolve(reader.result as string)
-    reader.onerror = (error) => reject(error)
+    reader.onerror = error => reject(error)
   })
 
 export const validateHttpHttps = (url: string) => {
@@ -356,7 +402,7 @@ export const validateWebsocket = (url: string) => {
 }
 
 export const sanitizePayload = <T extends Record<string, any>>(payload: T): T => {
-  return omitBy(payload, (value) => value === null || value === undefined || Number.isNaN(value)) as T
+  return omitBy(payload, value => value === null || value === undefined || Number.isNaN(value)) as T
 }
 
 export const validateImageType = (type: string) => {
@@ -406,7 +452,9 @@ export const calculatePercentageUsage = (usage: number, total: number) => {
 }
 
 export const generateKeyFromPayload = (payload: any) => {
-  return cloneDeep(Object.values(payload || {}).filter((i) => i !== null || i !== undefined || i === ""))
+  return cloneDeep(
+    Object.values(payload || {}).filter(i => i !== null || i !== undefined || i === "")
+  )
     .sort()
     .join("-")
 }
@@ -460,7 +508,7 @@ export const formatUpperCase = (text?: string): string => {
 
   return text
     .split("_")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
 }
 export const validateDomainName = (domainName: string) => {
@@ -517,7 +565,7 @@ export const validateHostpath = (value: string) => {
 export const decodeBase64 = (base64: string) => {
   const binary = atob(base64)
   //@ts-expect-error: Unit8Array.from is not supported by typescript
-  const bytes = new Uint8Array([...binary].map((char) => char.charCodeAt(0)))
+  const bytes = new Uint8Array([...binary].map(char => char.charCodeAt(0)))
   return new TextDecoder("utf-8").decode(bytes)
 }
 

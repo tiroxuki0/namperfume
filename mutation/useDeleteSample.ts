@@ -1,10 +1,11 @@
-import { deleteResourceRequest } from "@utils/request"
 import { useMutation } from "@tanstack/react-query"
+
+import { deleteResourceRequest } from "@utils/request"
 import { DeleteResponse } from "@models/entities/DeleteResponse"
 
 export const deleteSample = async (ids: string[]) => {
   return (await Promise.allSettled(
-    ids.map((id) =>
+    ids.map(id =>
       // apiPath will be got from the config file named utils/apiEndpoint.ts
       deleteResourceRequest({
         apiPath: `/template/${id}`,

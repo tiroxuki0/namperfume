@@ -1,13 +1,15 @@
-import React from 'react'
-import { env } from 'next-runtime-env'
-const favicon = env('NEXT_PUBLIC_FAVICON')
+import React from "react"
+
+import { env } from "next-runtime-env"
+
+const favicon = env("NEXT_PUBLIC_FAVICON")
 
 export const metadata = {
-  title: '',
-  description: '',
+  title: "",
+  description: "",
   icons: {
-    icon: favicon,
-  },
+    icon: favicon
+  }
 }
 
 const RootLayout = ({ children }: React.PropsWithChildren) => {
