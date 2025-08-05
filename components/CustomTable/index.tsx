@@ -257,7 +257,7 @@ const CustomTable = <T,>(props: CustomTableType<T>) => {
                   },
                   pageSizeOptions: [...paginationOptions],
 
-                  showTotal: total => t("select.total", { total }),
+                  showTotal: total => t("Total", { total }),
                   position: ["bottomLeft"],
                   showSizeChanger: true,
                   ...pagination

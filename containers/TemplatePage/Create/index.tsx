@@ -67,7 +67,9 @@ const Page = () => {
     const fields = form.getFieldsValue(true)
     if (
       !!Object.values(fields)?.length &&
-      Object.values(fields).some((field: string | number | boolean | null | undefined) => !!field)
+      (Object.values(fields) as (string | number | boolean | null | undefined)[]).some(
+        field => !!field
+      )
     ) {
       show()
       return

@@ -20,7 +20,7 @@ import { ObjectLiteral } from "@models/entities/ObjectLiteral"
 import CustomTable from "@components/CustomTable"
 import Link from "@components/Link"
 import PageLayout from "@components/PageLayout"
-import ProtectedRoute from "@components/ProtectedShield"
+// import ProtectedRoute from "@components/ProtectedShield"
 import { Typography } from "@components/Typography"
 
 import { filterProperties } from "./constants"
@@ -74,7 +74,7 @@ const Page = () => {
 
   const columns: TableColumnsType<SimpleItem> = [
     {
-      title: <Typography.TextWeight500>{t("title.name")}</Typography.TextWeight500>,
+      title: <Typography.TextWeight500>{t("examplePage.name")}</Typography.TextWeight500>,
       render: (item: SimpleItem) => {
         return <Link href={`${ROUTE.TEMPLATE.DETAIL(item.uuid)}`}>{item.name}</Link>
       },
@@ -113,7 +113,8 @@ const Page = () => {
   }
 
   return (
-    <ProtectedRoute>
+    <>
+      {/* <ProtectedRoute> */}
       <PageLayout
         backIcon={false}
         breadcrumb={formatBreadcrumb()}
@@ -169,7 +170,8 @@ const Page = () => {
           onSuccess={onSuccess}
         />
       )}
-    </ProtectedRoute>
+      {/* </ProtectedRoute> */}
+    </>
   )
 }
 

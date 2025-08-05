@@ -18,7 +18,7 @@ import ViewAllFeatures from "@components/AppLayout/partials/ViewAllFeatures"
 import Button from "@components/Button"
 import Divider from "@components/Divider"
 import { useWindowSize } from "@root/hooks/useWindowSize"
-import { useGetLogo } from "@root/queries/useGetLogo"
+// import { useGetLogo } from "@root/queries/useGetLogo"
 import { useGetProfiles } from "@root/queries/useGetProfiles"
 import { useNotificationsStore } from "@root/stores/notification/store"
 import ROUTE from "@utils/pageRoutes"
@@ -57,7 +57,14 @@ const AppHeader = ({
 
   const router = useRouter()
 
-  const { logo, isFetching, status } = useGetLogo()
+  const { logo, isFetching, status } = {
+    logo: {
+      url: "/app-logo.svg"
+    },
+    isFetching: false,
+    status: "success"
+  }
+  // const { logo, isFetching, status } = useGetLogo()
 
   // const handleDocsClick = () => {
   //   if (typeof window !== 'undefined') {

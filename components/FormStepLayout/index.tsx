@@ -5,12 +5,7 @@ import { ReactNode } from "react"
 import { Col, Row } from "antd"
 import { StepProps } from "antd/lib"
 
-import FlexCustom from "@components/FlexCustom"
-import Steps from "@components/Steps"
-
 const FormStepLayout = ({
-  step,
-  stepList,
   stepForm
 }: {
   step: number
@@ -19,9 +14,6 @@ const FormStepLayout = ({
 }) => {
   return (
     <>
-      <FlexCustom.FlexStep style={{ marginBottom: 0 }}>
-        <Steps current={step} items={stepList} size="small" type="navigation" />
-      </FlexCustom.FlexStep>
       <Row
         gutter={[12, 12]}
         style={{

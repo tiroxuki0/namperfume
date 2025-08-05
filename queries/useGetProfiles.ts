@@ -1,5 +1,6 @@
-import { getRequest } from "@utils/request"
 import { useQuery } from "@tanstack/react-query"
+
+import { getRequest } from "@utils/request"
 import { Profile } from "@models/entities/Profile"
 import { profilePath } from "@utils/apiEndpoint"
 

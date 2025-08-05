@@ -1,7 +1,8 @@
+import { useQuery } from "@tanstack/react-query"
+
 import { getRequest } from "@utils/request"
 import { permissionsPath } from "@utils/apiEndpoint"
 import { ResponseType } from "@models/entities/ResponseType"
-import { useQuery } from "@tanstack/react-query"
 import { Permissions } from "@models/entities/Permission"
 
 const getCurrentPermission = async () => {
